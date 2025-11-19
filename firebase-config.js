@@ -8,28 +8,28 @@ import { getFirestore, enableIndexedDbPersistence } from "https://www.gstatic.co
 import { getDatabase } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
 
-// ⚠️ IMPORTANT: Replace with your Firebase configuration
-// Get this from Firebase Console > Project Settings > Your Apps
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY_HERE", // ← Replace
-  authDomain: "your-project.firebaseapp.com", // ← Replace
-  projectId: "your-project-id", // ← Replace
-  storageBucket: "your-project.appspot.com", // ← Replace
-  messagingSenderId: "YOUR_SENDER_ID", // ← Replace
-  appId: "YOUR_APP_ID", // ← Replace
-  databaseURL: "https://your-project.firebaseio.com" // ← Replace (optional)
+  apiKey: "AIzaSyDeSWog8lCk__K53uuV7SmySB-obQYzB_E",
+  authDomain: "examshala-ce41d.firebaseapp.com",
+  projectId: "examshala-ce41d",
+  storageBucket: "examshala-ce41d.firebasestorage.app",
+  messagingSenderId: "172203928340",
+  appId: "1:172203928340:web:bc06c3becfcc925bd5b001",
+  measurementId: "G-RQ2SP16JQ5"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-console.log("✅ Firebase app initialized");
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
+const analytics = getAnalytics(app);
 
 // Initialize Authentication with persistence
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence).catch((error) => {
   console.warn("⚠️ Auth persistence error:", error.code);
 });
-console.log("✅ Firebase Auth initialized");
 
 // Initialize Firestore with offline persistence
 const db = getFirestore(app);
@@ -40,15 +40,12 @@ enableIndexedDbPersistence(db).catch((error) => {
     console.warn("⚠️ Firestore offline: Browser not supported");
   }
 });
-console.log("✅ Firestore initialized");
 
 // Initialize Realtime Database (optional)
 const rtdb = getDatabase(app);
-console.log("✅ Realtime Database initialized");
 
 // Initialize Storage
 const storage = getStorage(app);
-console.log("✅ Storage initialized");
 
 // Export Firebase services
-export { auth, db, rtdb, storage };
+export { app, auth, db, rtdb, storage, analytics };
