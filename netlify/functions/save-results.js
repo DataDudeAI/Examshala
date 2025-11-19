@@ -51,10 +51,46 @@ exports.handler = async (event, context) => {
       userAgent: event.headers['user-agent']
     };
 
-    // Log result (in production, save to database)
-    console.log('Result saved:', result);
+    // Try to persist to Firebase Realtime Database if configured
+    const firebaseDatabaseUrl = process.env.FIREBASE_DATABASE_URL || process.env.FIREBASE_DB_URL;
+    if (firebaseDatabaseUrl) {
+      try {
+        // Ensure no trailing slash
+        const baseUrl = firebaseDatabaseUrl.replace(/\/$/, '');
+        const url = `${baseUrl}/results/${resultId}.json`;
 
-    // Return success response
+        // Use fetch (Node 18+ / Netlify runtime provides global fetch)
+        await fetch(url, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(result)
+        });
+
+        console.log('Result persisted to Firebase:', url);
+
+        return {
+          statusCode: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            success: true,
+            resultId,
+            stored: 'firebase',
+            message: 'Result saved to Firebase successfully'
+          })
+        };
+      } catch (err) {
+        console.error('Error writing to Firebase:', err);
+        // Fall through to return success but note store failure
+      }
+    }
+
+    // Fallback: Log result (and do not persist if DB not configured)
+    console.log('Result saved (no Firebase configured):', result);
+
+    // Return success response (client-side will fallback if needed)
     return {
       statusCode: 200,
       headers: {
@@ -64,7 +100,8 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         success: true,
         resultId,
-        message: 'Result saved successfully'
+        stored: firebaseDatabaseUrl ? 'attempted-firebase' : 'log-only',
+        message: 'Result received'
       })
     };
 
