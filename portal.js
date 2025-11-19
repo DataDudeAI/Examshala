@@ -103,6 +103,8 @@ const examsData = [
     }
 ];
 
+const liveExamIds = new Set(['dsa', 'web', 'ml', 'database']);
+
 // Initialize portal
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthentication();
@@ -223,11 +225,24 @@ function previewExam(examId) {
 
 function startExam(examId) {
     const exam = examsData.find(e => e.id === examId);
+    if (!exam) {
+        showToast('Exam not found. Please refresh and try again.', 'error');
+        return;
+    }
+
+    if (!liveExamIds.has(examId)) {
+        showToast(`${exam.name} is coming soon.`, 'warning');
+        return;
+    }
+
     showToast(`Starting ${exam.name} exam...`, 'info');
+    sessionStorage.setItem('nextExam', examId);
+
     setTimeout(() => {
-        // window.location.href = `exam.html?id=${examId}`;
-        alert('Exam interface would load here');
-    }, 1000);
+        const examUrl = new URL('index-pro.html', window.location.origin);
+        examUrl.searchParams.set('exam', examId);
+        window.open(examUrl.toString(), '_blank', 'noopener');
+    }, 500);
 }
 
 // Search exams

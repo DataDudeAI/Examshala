@@ -121,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     initializeLeaderboard();
     updateStatsDisplay();
+    autoStartExamFromNavigation();
 });
 
 // ===== UTILITY FUNCTIONS =====
@@ -141,6 +142,39 @@ function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function autoStartExamFromNavigation() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const paramExam = params.get('exam');
+        const storedExam = sessionStorage.getItem('nextExam');
+        const examKey = paramExam || storedExam;
+
+        if (!examKey) {
+            return;
+        }
+
+        sessionStorage.removeItem('nextExam');
+
+        if (paramExam) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('exam');
+            const remaining = url.searchParams.toString();
+            const cleanPath = remaining ? `${url.pathname}?${remaining}` : url.pathname;
+            window.history.replaceState({}, '', cleanPath + url.hash);
+        }
+
+        if (!examConfig[examKey]) {
+            console.warn('Exam not available yet:', examKey);
+            showError('That exam will be available soon.');
+            return;
+        }
+
+        setTimeout(() => startExam(examKey), 200);
+    } catch (error) {
+        console.error('Failed to auto start exam from portal navigation', error);
     }
 }
 
