@@ -532,7 +532,19 @@ function authenticateAdmin(event) {
 
 function logoutAdmin() {
     appState.adminAuthenticated = false;
-    switchScreen('start');
+    // Clear user auth data and redirect to public landing page
+    try {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('rememberEmail');
+    } catch (e) {
+        // ignore storage errors
+    }
+    showToast('Admin logged out', 'success');
+    setTimeout(() => {
+        window.location.href = 'landing.html';
+    }, 800);
 }
 
 function switchAdminTab(tabName) {

@@ -193,10 +193,21 @@ function authenticateAdmin(event) {
 
 function logoutAdmin() {
     appState.adminAuthenticated = false;
-    localStorage.removeItem('adminAuth');
-    localStorage.removeItem('adminLoginTime');
-    switchScreen('start');
+    // Clear authentication and redirect to public landing page
+    try {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('adminAuth');
+        localStorage.removeItem('adminLoginTime');
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('rememberEmail');
+    } catch (e) {
+        // ignore storage errors
+    }
     showSuccess('Admin logged out');
+    setTimeout(() => {
+        window.location.href = 'landing.html';
+    }, 800);
 }
 
 function switchAdminTab(tabName) {
