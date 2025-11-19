@@ -1,4 +1,4 @@
 # SPA fallback: catch-all for client-side routing
 # Static files (landing.html, auth.html, portal.html) are served directly
 # All other routes are rewritten to index.html for the SPA to handle
-/*              /index.html     200
+/*              /landing.html     200
