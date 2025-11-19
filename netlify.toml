@@ -22,6 +22,28 @@
   command = "echo 'Development ready'"
   environment = { NODE_ENV = "development" }
 
+# Direct page redirects (highest priority)
+# Allow landing, auth, and portal pages to be served directly
+[[redirects]]
+  from = "/landing.html"
+  to = "/landing.html"
+  status = 200
+
+[[redirects]]
+  from = "/auth.html"
+  to = "/auth.html"
+  status = 200
+
+[[redirects]]
+  from = "/portal.html"
+  to = "/portal.html"
+  status = 200
+
+[[redirects]]
+  from = "/index-pro.html"
+  to = "/index-pro.html"
+  status = 200
+
 # URL redirects for single-page app routing
 # This ensures all requests go to index.html for client-side routing
 [[redirects]]
