@@ -3,714 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExamPro Elite - Professional Skill Assessment & Certification</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="ExamPro Elite - Professional Online Exam Portal for Interview Prep & Skill Assessments">
+    <meta name="keywords" content="exam portal, interview prep, skill assessment, machine learning, DSA, web development">
+    <title>ExamPro Elite - Professional Exam Portal & Interview Prep</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="landing-styles.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <div class="container">
-                <div class="nav-brand">
-                    <svg class="logo-icon" width="32" height="32" viewBox="0 0 48 48" fill="none">
-                        <rect width="48" height="48" rx="8" fill="#4F46E5"/>
-                        <path d="M24 12L32 18V32C32 33.1 31.1 34 30 34H18C16.9 34 16 33.1 16 32V18L24 12Z" fill="white"/>
-                        <path d="M24 18V28M20 24H28" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <span class="brand-text">ExamPro <span class="badge-elite">Elite</span></span>
-                </div>
-                <div class="nav-menu">
-                    <button class="nav-btn" onclick="scrollToSection('exams')">Exams</button>
-                    <button class="nav-btn" onclick="scrollToSection('leaderboard')">Leaderboard</button>
-                    <button class="nav-btn" onclick="showMyProfile()">Profile</button>
-                    <button class="nav-btn admin-btn" id="navAdminBtn" onclick="showAdminLogin()">
-                        <i class="fas fa-lock"></i> Admin
-                    </button>
-                </div>
-            </div>
-        </nav>
- 
-        <!-- Start Screen -->
-        <div id="startScreen" class="screen active">
-            <!-- Hero Section -->
-            <section class="hero">
-                <div class="container">
-                    <div class="hero-content">
-                        <div class="hero-text">
-                            <h1 class="hero-title">Master Your Skills with <span class="gradient-text">ExamPro Elite</span></h1>
-                            <p class="hero-subtitle">Professional-grade assessment platform for developers, designers, and tech professionals</p>
-                            <div class="hero-features">
-                                <div class="feature-item">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>Real-time Analytics</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-medal"></i>
-                                    <span>Certifications & Badges</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>Global Community</span>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary btn-lg" onclick="scrollToSection('exams')">Start Learning Now</button>
-                        </div>
-                        <div class="hero-visual">
-                            <div class="floating-card card-1">
-                                <div class="card-icon">📊</div>
-                                <div class="card-text">95% Score</div>
-                            </div>
-                            <div class="floating-card card-2">
-                                <div class="card-icon">🏆</div>
-                                <div class="card-text">Rank #12</div>
-                            </div>
-                            <div class="floating-card card-3">
-                                <div class="card-icon">⭐</div>
-                                <div class="card-text">Expert Level</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Exams Section -->
-            <section id="exams" class="section exams-section">
-                <div class="container">
-                    <div class="section-header">
-                        <h2>Choose Your Exam</h2>
-                        <p>Select from our comprehensive collection of skill assessments</p>
-                    </div>
-                    <div class="exam-cards">
-                        <div class="exam-card" data-exam="dsa">
-                            <div class="card-header">
-                                <span class="category-badge">Programming</span>
-                                <span class="difficulty-badge hard">Hard</span>
-                            </div>
-                            <div class="card-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <h3>Data Structures & Algorithms</h3>
-                            <p>Master fundamental DSA concepts essential for coding interviews</p>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>45 min</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question-circle"></i>
-                                    <span>30 Qs</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-users"></i>
-                                    <span>2.5K taken</span>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary start-btn">Start Exam</button>
-                                <button class="btn btn-ghost preview-btn" onclick="previewExam('dsa')">
-                                    <i class="fas fa-eye"></i> Preview
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="exam-card" data-exam="web">
-                            <div class="card-header">
-                                <span class="category-badge web">Web Dev</span>
-                                <span class="difficulty-badge medium">Medium</span>
-                            </div>
-                            <div class="card-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <h3>Web Development Fundamentals</h3>
-                            <p>HTML, CSS, JavaScript, and modern frameworks mastery</p>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>40 min</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question-circle"></i>
-                                    <span>25 Qs</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-users"></i>
-                                    <span>1.8K taken</span>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary start-btn">Start Exam</button>
-                                <button class="btn btn-ghost preview-btn" onclick="previewExam('web')">
-                                    <i class="fas fa-eye"></i> Preview
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="exam-card" data-exam="ml">
-                            <div class="card-header">
-                                <span class="category-badge ml">AI & ML</span>
-                                <span class="difficulty-badge hard">Hard</span>
-                            </div>
-                            <div class="card-icon">
-                                <i class="fas fa-brain"></i>
-                            </div>
-                            <h3>Machine Learning & AI Concepts</h3>
-                            <p>ML algorithms, neural networks, and AI fundamentals</p>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>50 min</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question-circle"></i>
-                                    <span>35 Qs</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-users"></i>
-                                    <span>3.2K taken</span>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary start-btn">Start Exam</button>
-                                <button class="btn btn-ghost preview-btn" onclick="previewExam('ml')">
-                                    <i class="fas fa-eye"></i> Preview
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="exam-card" data-exam="database">
-                            <div class="card-header">
-                                <span class="category-badge db">Database</span>
-                                <span class="difficulty-badge medium">Medium</span>
-                            </div>
-                            <div class="card-icon">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <h3>Database Design & SQL Mastery</h3>
-                            <p>SQL, database design, and query optimization</p>
-                            <div class="card-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>45 min</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question-circle"></i>
-                                    <span>28 Qs</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-users"></i>
-                                    <span>1.5K taken</span>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary start-btn">Start Exam</button>
-                                <button class="btn btn-ghost preview-btn" onclick="previewExam('database')">
-                                    <i class="fas fa-eye"></i> Preview
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Leaderboard Section -->
-            <section id="leaderboard" class="section leaderboard-section">
-                <div class="container">
-                    <div class="section-header">
-                        <h2>Global Leaderboard</h2>
-                        <p>See how you rank against other learners worldwide</p>
-                    </div>
-                    <div class="leaderboard-container">
-                        <div class="leaderboard-table">
-                            <div class="leaderboard-header">
-                                <div class="rank-col">Rank</div>
-                                <div class="name-col">Learner</div>
-                                <div class="score-col">Score</div>
-                                <div class="exams-col">Exams</div>
-                                <div class="badge-col">Badge</div>
-                            </div>
-                            <div id="leaderboardBody" class="leaderboard-body">
-                                <!-- Generated by JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Stats Section -->
-            <section class="section stats-section">
-                <div class="container">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-users"></i></div>
-                            <div class="stat-number" id="statLearners">15,234</div>
-                            <div class="stat-label">Active Learners</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                            <div class="stat-number" id="statExams">185,420</div>
-                            <div class="stat-label">Exams Completed</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-star"></i></div>
-                            <div class="stat-number" id="statAvgScore">78%</div>
-                            <div class="stat-label">Avg. Score</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-certificate"></i></div>
-                            <div class="stat-number" id="statCerts">3,421</div>
-                            <div class="stat-label">Certifications</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Exam Analytics -->
-            <section class="section analytics-section">
-                <div class="container">
-                    <div class="section-header">
-                        <h2>Exam Analytics</h2>
-                        <p>Insights based on your completed exams.</p>
-                    </div>
-                    <div id="resultsAnalytics" class="analytics-grid">
-                        <div class="analytics-card" id="analyticsPlaceholder">
-                            <p class="muted">No exams submitted yet. Finish an exam to see analytics.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="container">
-                    <div class="footer-content">
-                        <div class="footer-section">
-                            <h4>About</h4>
-                            <p>ExamPro Elite is a professional assessment platform designed for developers to test and improve their skills.</p>
-                        </div>
-                        <div class="footer-section">
-                            <h4>Quick Links</h4>
-                            <ul>
-                                <li><a href="#exams">Exams</a></li>
-                                <li><a href="#leaderboard">Leaderboard</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-section">
-                            <h4>Legal</h4>
-                            <ul>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">Cookie Policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer-bottom">
-                        <p>&copy; 2024 ExamPro Elite. All rights reserved. | Made with <span style="color:#e74c3c;">❤</span> by DataDudeAI</p>
-                    </div>
-                </div>
-            </footer>
-        </div>
-
-        <!-- Exam Screen (existing - to be integrated) -->
-        <div id="examScreen" class="screen">
-            <div class="exam-container">
-                <div class="exam-header">
-                    <div class="exam-info">
-                        <h2 id="examTitle">Exam Title</h2>
-                        <div class="exam-progress">
-                            <span id="questionCounter">1 / 30</span>
-                            <div class="progress-bar">
-                                <div id="progressFill" class="progress-fill"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="exam-timer">
-                        <i class="fas fa-clock"></i>
-                        <span id="timer">45:00</span>
-                    </div>
-                </div>
-
-                <div class="exam-content">
-                    <div class="exam-main">
-                        <div class="question-section">
-                            <h3 id="questionText">Question will appear here</h3>
-                            <div id="optionsContainer" class="options-container">
-                                <!-- Options rendered by JS -->
-                            </div>
-                        </div>
-
-                        <div class="exam-actions">
-                            <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
-                                <i class="fas fa-arrow-left"></i> Previous
-                            </button>
-                            <button class="btn btn-secondary" id="nextBtn" onclick="nextQuestion()">
-                                Next <i class="fas fa-arrow-right"></i>
-                            </button>
-                            <button class="btn btn-danger" id="submitBtn" onclick="submitExam()" style="display:none;">
-                                <i class="fas fa-check"></i> Submit Exam
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="exam-sidebar">
-                        <div class="questions-nav">
-                            <h4>Questions</h4>
-                            <div id="questionsList" class="questions-list">
-                                <!-- Question buttons generated by JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-exit" onclick="exitExam()" title="Exit Exam">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- Exit Confirmation Modal -->
-            <div id="exitModal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2><i class="fas fa-exclamation-circle"></i> Exit Exam?</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to exit? Your progress will be lost.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" onclick="closeExitModal()">Continue Exam</button>
-                        <button class="btn btn-danger" onclick="confirmExit()">Exit Exam</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Results Screen (existing - to be integrated) -->
-        <div id="resultsScreen" class="screen">
-            <!-- Results content will be rendered here -->
-        </div>
-
-        <!-- Profile Screen -->
-        <div id="profileScreen" class="screen">
-            <div class="container profile-container">
-                <div class="profile-header">
-                    <button class="btn-back" onclick="goToHome()"><i class="fas fa-arrow-left"></i> Back</button>
-                    <h1>My Profile</h1>
-                </div>
-                <div class="profile-grid">
-                    <div class="profile-card">
-                        <div class="profile-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="profile-info">
-                            <h2 id="profileName">Guest Learner</h2>
-                            <p id="profileEmail">guest@exampro.com</p>
-                            <div class="profile-badge" id="profileLevel">
-                                <i class="fas fa-medal"></i> Beginner
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stats-card">
-                        <h3>Your Statistics</h3>
-                        <div class="stats-row">
-                            <div class="stat-item">
-                                <div class="stat-label">Total Exams Taken</div>
-                                <div class="stat-value" id="myExamsTaken">0</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-label">Average Score</div>
-                                <div class="stat-value" id="myAvgScore">-</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-label">Personal Best</div>
-                                <div class="stat-value" id="myBestScore">-</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="history-card">
-                        <h3>Recent Attempts</h3>
-                        <div id="examHistory" class="exam-history">
-                            <p class="empty-state">No exams taken yet. Start your first exam to build your profile!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Screen -->
-        <div id="adminScreen" class="screen">
-            <div class="admin-container">
-                <div class="admin-sidebar">
-                    <div class="admin-logo">
-                        <i class="fas fa-lock"></i> Admin Panel
-                    </div>
-                    <nav class="admin-nav">
-                        <button class="admin-nav-btn active" onclick="switchAdminTab('dashboard')">
-                            <i class="fas fa-chart-line"></i> Dashboard
-                        </button>
-                        <button class="admin-nav-btn" onclick="switchAdminTab('manage')">
-                            <i class="fas fa-book"></i> Manage Questions
-                        </button>
-                        <button class="admin-nav-btn" onclick="switchAdminTab('analytics')">
-                            <i class="fas fa-analytics"></i> Analytics
-                        </button>
-                        <button class="admin-nav-btn" onclick="switchAdminTab('users')">
-                            <i class="fas fa-users"></i> Users
-                        </button>
-                        <button class="admin-nav-btn" onclick="switchAdminTab('import')">
-                            <i class="fas fa-upload"></i> Import/Export
-                        </button>
-                        <div style="flex-grow:1"></div>
-                        <button class="admin-nav-btn logout-btn" onclick="logoutAdmin(); return false;">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </nav>
-                </div>
-
-                <div class="admin-content">
-                    <!-- Dashboard Tab -->
-                    <div id="dashboardTab" class="admin-tab active">
-                        <div class="admin-header">
-                            <h2>Dashboard</h2>
-                            <p>Welcome back, Admin! Here's an overview of your platform.</p>
-                        </div>
-                        <div class="dashboard-grid">
-                            <div class="dashboard-card">
-                                <div class="card-icon"><i class="fas fa-users"></i></div>
-                                <div class="card-content">
-                                    <div class="card-label">Total Users</div>
-                                    <div class="card-value" id="adminTotalUsers">0</div>
-                                </div>
-                            </div>
-                            <div class="dashboard-card">
-                                <div class="card-icon"><i class="fas fa-check"></i></div>
-                                <div class="card-content">
-                                    <div class="card-label">Total Exams Taken</div>
-                                    <div class="card-value" id="adminTotalExams">0</div>
-                                </div>
-                            </div>
-                            <div class="dashboard-card">
-                                <div class="card-icon"><i class="fas fa-star"></i></div>
-                                <div class="card-content">
-                                    <div class="card-label">Avg Score</div>
-                                    <div class="card-value" id="adminAvgScore">0%</div>
-                                </div>
-                            </div>
-                            <div class="dashboard-card">
-                                <div class="card-icon"><i class="fas fa-book"></i></div>
-                                <div class="card-content">
-                                    <div class="card-label">Total Questions</div>
-                                    <div class="card-value" id="adminTotalQuestions">0</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Manage Questions Tab -->
-                    <div id="manageTab" class="admin-tab">
-                        <div class="admin-header">
-                            <h2>Manage Questions</h2>
-                            <button class="btn btn-primary" onclick="showAddQuestionModal()">
-                                <i class="fas fa-plus"></i> Add Question
-                            </button>
-                        </div>
-                        <div class="manage-controls">
-                            <select id="adminExamSelect" class="form-control" onchange="loadExamQuestions()">
-                                <option value="">Select Exam</option>
-                                <option value="dsa">Data Structures & Algorithms</option>
-                                <option value="web">Web Development</option>
-                                <option value="ml">Machine Learning & AI</option>
-                                <option value="database">Database Design & SQL</option>
-                            </select>
-                        </div>
-                        <div id="questionsContainer" class="questions-container">
-                            <p class="empty-state">Select an exam to view questions</p>
-                        </div>
-                    </div>
-
-                    <!-- Analytics Tab -->
-                    <div id="analyticsTab" class="admin-tab">
-                        <div class="admin-header">
-                            <h2>Analytics</h2>
-                            <p>Detailed performance insights and user statistics</p>
-                        </div>
-                        <div class="analytics-grid">
-                            <div class="analytics-card">
-                                <h3>Score Distribution</h3>
-                                <div id="scoreDistribution" class="chart-placeholder">
-                                    <canvas id="scoreChart"></canvas>
-                                </div>
-                            </div>
-                            <div class="analytics-card">
-                                <h3>Exam Performance</h3>
-                                <div id="examPerformance" class="chart-placeholder">
-                                    <canvas id="examChart"></canvas>
-                                </div>
-                            </div>
-                            <div class="analytics-card full-width">
-                                <h3>Top Performers</h3>
-                                <div id="topPerformers" class="performers-list">
-                                    <!-- Generated by JS -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Users Tab -->
-                    <div id="usersTab" class="admin-tab">
-                        <div class="admin-header">
-                            <h2>Users</h2>
-                            <div class="user-filters">
-                                <input type="text" class="form-control" id="userSearch" placeholder="Search users..." onkeyup="filterUsers()">
-                                <select class="form-control" id="userFilter" onchange="filterUsers()">
-                                    <option value="">All Users</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="usersContainer" class="users-table">
-                            <!-- Generated by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Import/Export Tab -->
-                    <div id="importTab" class="admin-tab">
-                        <div class="admin-header">
-                            <h2>Import / Export Data</h2>
-                        </div>
-                        <div class="import-export-container">
-                            <div class="import-section">
-                                <h3><i class="fas fa-download"></i> Export Data</h3>
-                                <p>Export all exam questions, user data, and results</p>
-                                <div class="export-buttons">
-                                    <button class="btn btn-secondary" onclick="exportQuestions()">
-                                        <i class="fas fa-file-csv"></i> Export Questions (CSV)
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="exportResults()">
-                                        <i class="fas fa-file-csv"></i> Export Results (CSV)
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="exportAllData()">
-                                        <i class="fas fa-file-json"></i> Export All (JSON)
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="import-section">
-                                <h3><i class="fas fa-upload"></i> Import Data</h3>
-                                <p>Import questions from JSON file</p>
-                                <input type="file" id="importFile" class="form-control" accept=".json" />
-                                <button class="btn btn-primary" onclick="importData()">
-                                    <i class="fas fa-upload"></i> Import File
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Login Modal -->
-        <div id="adminLoginModal" class="modal">
-            <div class="modal-content login-modal">
-                <div class="modal-header">
-                    <h2><i class="fas fa-lock"></i> Admin Login</h2>
-                    <button class="modal-close" onclick="closeAdminLogin()">×</button>
-                </div>
-                <form onsubmit="authenticateAdmin(event)" class="modal-body">
-                    <p class="login-subtitle">Enter your admin credentials</p>
-                    <div class="form-group">
-                        <label><i class="fas fa-key"></i> Admin Password</label>
-                        <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password" required autofocus>
-                        <small class="form-hint">Default: admin123 (change in settings)</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    <button type="button" class="btn btn-ghost btn-block" onclick="closeAdminLogin()">Cancel</button>
-                </form>
-                <div class="modal-footer" style="text-align: center; font-size: 12px;">
-                    <p>Secure access for administrators only</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Add Question Modal -->
-        <div id="addQuestionModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Add New Question</h2>
-                    <button class="modal-close" onclick="closeAddQuestionModal()">×</button>
-                </div>
-                <form onsubmit="saveNewQuestion(event)" class="modal-body form-large">
-                    <div class="form-group">
-                        <label>Exam</label>
-                        <select id="newQuestionExam" class="form-control" required>
-                            <option value="">Select Exam</option>
-                            <option value="dsa">Data Structures & Algorithms</option>
-                            <option value="web">Web Development</option>
-                            <option value="ml">Machine Learning & AI</option>
-                            <option value="database">Database Design & SQL</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Question</label>
-                        <textarea id="newQuestion" class="form-control" placeholder="Enter the question" required rows="4"></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Option A</label>
-                            <input type="text" id="optionA" class="form-control" placeholder="Option A" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Option B</label>
-                            <input type="text" id="optionB" class="form-control" placeholder="Option B" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Option C</label>
-                            <input type="text" id="optionC" class="form-control" placeholder="Option C" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Option D</label>
-                            <input type="text" id="optionD" class="form-control" placeholder="Option D" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Correct Answer</label>
-                            <select id="correctAnswer" class="form-control" required>
-                                <option value="">Select correct answer</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Difficulty</label>
-                            <select id="difficulty" class="form-control" required>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Explanation</label>
-                        <textarea id="newExplanation" class="form-control" placeholder="Explain why this is the correct answer" rows="3"></textarea>
-                    </div>
-                    <div class="form-footer">
-                        <button type="submit" class="btn btn-primary">Save Question</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeAddQuestionModal()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <!-- BUILD INFO: This banner confirms which landing.html version is being served -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 20px; text-align: center; font-size: 13px; font-weight: 600; z-index: 9999; position: relative;">
+        ✅ Landing Page Build: 2025-11-19 (Fixed CSS + Redirect Rules)
     </div>
 
-    <script src="score-utils.js"></script>
-    <script src="app-pro.js"></script>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ExamPro Elite</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#exams">Exams</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn-sign-in" onclick="redirectToLogin()">Sign In</button>
+                <button class="btn-get-started" onclick="redirectToRegister()">Get Started</button>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Master Your Skills with<br><span class="highlight">ExamPro Elite</span></h1>
+            <p class="hero-subtitle">Professional-grade assessment platform for interview preparation & skill validation</p>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <h3>50K+</h3>
+                    <p>Active Users</p>
+                </div>
+                <div class="stat">
+                    <h3>2000+</h3>
+                    <p>Questions</p>
+                </div>
+                <div class="stat">
+                    <h3>95%</h3>
+                    <p>Success Rate</p>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <button class="btn-primary-large" onclick="redirectToRegister()">
+                    <i class="fas fa-arrow-right"></i> Start Free Trial
+                </button>
+                <button class="btn-secondary-large" onclick="scrollToSection('features')">
+                    <i class="fas fa-play"></i> Watch Demo
+                </button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card card-1">
+                <i class="fas fa-code"></i>
+                <p>DSA</p>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-chart-line"></i>
+                <p>ML/AI</p>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-database"></i>
+                <p>Database</p>
+            </div>
+            <div class="floating-card card-4">
+                <i class="fas fa-globe"></i>
+                <p>Web Dev</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Why Choose ExamPro Elite?</h2>
+            <p>Everything you need to prepare for your dream tech job</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI-Powered Learning</h3>
+                <p>Personalized learning paths based on your performance and weak areas</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Real-Time Feedback</h3>
+                <p>Instant score calculations, detailed explanations, and performance analytics</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Global Leaderboard</h3>
+                <p>Compete with thousands of users and track your rank in real-time</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Community Support</h3>
+                <p>Join discussion forums and learn from expert solutions and discussions</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Ready</h3>
+                <p>Study anywhere, anytime with our fully responsive mobile experience</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3>Advanced Analytics</h3>
+                <p>Detailed performance reports, progress tracking, and skill assessment</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Categories Section -->
+    <section id="exams" class="exam-categories">
+        <div class="section-header">
+            <h2>Our Exam Categories</h2>
+            <p>Comprehensive assessment platform covering all major tech domains</p>
+        </div>
+
+        <div class="exams-container">
+            <div class="exam-card">
+                <div class="exam-icon dsa">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Data Structures & Algorithms</h3>
+                <div class="exam-meta">
+                    <span class="difficulty hard">Hard</span>
+                    <span class="duration">45 min</span>
+                    <span class="questions">30 Qs</span>
+                </div>
+                <p>Master the fundamentals with 150+ DSA problems covering arrays, linked lists, trees, graphs, and dynamic programming.</p>
+                <button class="btn-explore" onclick="redirectToExam('dsa')">Explore <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="exam-card">
+                <div class="exam-icon web">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>Web Development</h3>
+                <div class="exam-meta">
+                    <span class="difficulty medium">Medium</span>
+                    <span class="duration">40 min</span>
+                    <span class="questions">25 Qs</span>
+                </div>
+                <p>Test your knowledge of HTML, CSS, JavaScript, React, Vue, and backend frameworks for modern web development.</p>
+                <button class="btn-explore" onclick="redirectToExam('web')">Explore <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="exam-card">
+                <div class="exam-icon ml">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Machine Learning & AI</h3>
+                <div class="exam-meta">
+                    <span class="difficulty hard">Hard</span>
+                    <span class="duration">50 min</span>
+                    <span class="questions">35 Qs</span>
+                </div>
+                <p>Explore ML algorithms, deep learning, NLP, computer vision, and AI fundamentals with real-world scenarios.</p>
+                <button class="btn-explore" onclick="redirectToExam('ml')">Explore <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="exam-card">
+                <div class="exam-icon db">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Database Design & SQL</h3>
+                <div class="exam-meta">
+                    <span class="difficulty medium">Medium</span>
+                    <span class="duration">45 min</span>
+                    <span class="questions">28 Qs</span>
+                </div>
+                <p>SQL queries, database design, normalization, indexing, and performance optimization for production systems.</p>
+                <button class="btn-explore" onclick="redirectToExam('database')">Explore <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="exam-card">
+                <div class="exam-icon cs">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h3>System Design</h3>
+                <div class="exam-meta">
+                    <span class="difficulty hard">Hard</span>
+                    <span class="duration">60 min</span>
+                    <span class="questions">15 Qs</span>
+                </div>
+                <p>Scale systems, design patterns, microservices, distributed systems, and architecture for tech interviews.</p>
+                <button class="btn-explore" onclick="redirectToExam('system')">Explore <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="exam-card">
+                <div class="exam-icon devops">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <h3>Cloud & DevOps</h3>
+                <div class="exam-meta">
+                    <span class="difficulty medium">Medium</span>
+                    <span class="duration">40 min</span>
+                    <span class="questions">25 Qs</span>
+                </div>
+                <p>AWS, Azure, Docker, Kubernetes, CI/CD pipelines, and cloud infrastructure for modern deployments.</p>
+                <button class="btn-explore" onclick="redirectToExam('devops')">Explore <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="section-header">
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Choose the plan that works for you</p>
+        </div>
+
+        <div class="pricing-cards">
+            <div class="price-card">
+                <h3>Starter</h3>
+                <div class="price">$0<span>/mo</span></div>
+                <p class="price-desc">Perfect for beginners</p>
+                <ul class="price-features">
+                    <li><i class="fas fa-check"></i> 2 Free Exams</li>
+                    <li><i class="fas fa-check"></i> Basic Analytics</li>
+                    <li><i class="fas fa-check"></i> Community Access</li>
+                    <li><i class="fas fa-times"></i> Advanced Features</li>
+                    <li><i class="fas fa-times"></i> Priority Support</li>
+                </ul>
+                <button class="btn-price-secondary" onclick="redirectToRegister()">Get Started</button>
+            </div>
+
+            <div class="price-card featured">
+                <div class="badge">Popular</div>
+                <h3>Professional</h3>
+                <div class="price">$9.99<span>/mo</span></div>
+                <p class="price-desc">For serious learners</p>
+                <ul class="price-features">
+                    <li><i class="fas fa-check"></i> All Exams Access</li>
+                    <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                    <li><i class="fas fa-check"></i> Performance Reports</li>
+                    <li><i class="fas fa-check"></i> Custom Learning Path</li>
+                    <li><i class="fas fa-check"></i> Email Support</li>
+                </ul>
+                <button class="btn-price-primary" onclick="redirectToRegister()">Start Free Trial</button>
+            </div>
+
+            <div class="price-card">
+                <h3>Enterprise</h3>
+                <div class="price">Custom<span>/mo</span></div>
+                <p class="price-desc">For organizations</p>
+                <ul class="price-features">
+                    <li><i class="fas fa-check"></i> Unlimited Users</li>
+                    <li><i class="fas fa-check"></i> Custom Exams</li>
+                    <li><i class="fas fa-check"></i> Team Analytics</li>
+                    <li><i class="fas fa-check"></i> API Access</li>
+                    <li><i class="fas fa-check"></i> 24/7 Support</li>
+                </ul>
+                <button class="btn-price-secondary" onclick="contactSales()">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="section-header">
+            <h2>What Users Say</h2>
+            <p>Join thousands of successful candidates</p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"ExamPro Elite helped me crack my FAANG interview! The questions are realistic and the explanations are crystal clear."</p>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/40?img=1" alt="User 1">
+                    <div>
+                        <h4>Aditya Kumar</h4>
+                        <span>Software Engineer at Google</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"The leaderboard feature keeps me motivated. Love competing with other learners and tracking my progress!"</p>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/40?img=2" alt="User 2">
+                    <div>
+                        <h4>Priya Sharma</h4>
+                        <span>Data Scientist at Amazon</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"Perfect for interview prep! The analytics dashboard helped me identify my weak areas and focus my study time effectively."</p>
+                <div class="testimonial-author">
+                    <img src="https://i.pravatar.cc/40?img=3" alt="User 3">
+                    <div>
+                        <h4>Rajesh Patel</h4>
+                        <span>Full Stack Dev at Meta</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Start Your Interview Prep Journey?</h2>
+        <p>Join thousands of successful candidates who've achieved their dream jobs</p>
+        <button class="btn-cta" onclick="redirectToRegister()">Get Started Free <i class="fas fa-arrow-right"></i></button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ExamPro Elite</h4>
+                <p>Professional online exam platform for interview prep and skill assessments.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#exams">Exams</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 ExamPro Elite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="mobile-menu" class="mobile-menu">
+        <ul>
+            <li><a href="#features" onclick="closeMenu()">Features</a></li>
+            <li><a href="#exams" onclick="closeMenu()">Exams</a></li>
+            <li><a href="#pricing" onclick="closeMenu()">Pricing</a></li>
+            <li><a href="#testimonials" onclick="closeMenu()">Testimonials</a></li>
+            <li><a href="auth.html" onclick="closeMenu()">Sign In</a></li>
+        </ul>
+    </div>
+
+    <script src="landing.js"></script>
 </body>
 </html>
