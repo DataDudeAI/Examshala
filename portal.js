@@ -327,8 +327,13 @@ function logout() {
     localStorage.removeItem('user');
     showToast('Logged out successfully', 'success');
     setTimeout(() => {
-        window.location.href = 'landing.html';
-    }, 1000);
+        try {
+            const landingUrl = `${window.location.origin}/landing.html`;
+            window.location.replace(landingUrl);
+        } catch (e) {
+            window.location.href = '/';
+        }
+    }, 800);
 }
 
 // Toast notification

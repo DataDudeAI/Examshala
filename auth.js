@@ -424,6 +424,13 @@ function handleLogout() {
     // localStorage.removeItem('rememberEmail');
     showToast('Logged out successfully!', 'success');
     setTimeout(() => {
-        window.location.href = 'landing.html';
-    }, 1000);
+        try {
+            const landingUrl = `${window.location.origin}/landing.html`;
+            // Prefer replace to avoid leaving logout in history
+            window.location.replace(landingUrl);
+        } catch (e) {
+            // fallback
+            window.location.href = '/';
+        }
+    }, 800);
 }

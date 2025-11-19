@@ -206,7 +206,12 @@ function logoutAdmin() {
     }
     showSuccess('Admin logged out');
     setTimeout(() => {
-        window.location.href = 'landing.html';
+        try {
+            const landingUrl = `${window.location.origin}/landing.html`;
+            window.location.replace(landingUrl);
+        } catch (e) {
+            window.location.href = '/';
+        }
     }, 800);
 }
 

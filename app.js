@@ -543,7 +543,12 @@ function logoutAdmin() {
     }
     showToast('Admin logged out', 'success');
     setTimeout(() => {
-        window.location.href = 'landing.html';
+        try {
+            const landingUrl = `${window.location.origin}/landing.html`;
+            window.location.replace(landingUrl);
+        } catch (e) {
+            window.location.href = '/';
+        }
     }, 800);
 }
 
