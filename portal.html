@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ExamPro Elite - Professional Exam Portal">
+    <title>ExamPro Elite - Exam Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="portal-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="portal-navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ExamPro Elite</span>
+            </div>
+            <div class="navbar-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search exams..." id="searchInput" onkeyup="searchExams()">
+                </div>
+            </div>
+            <div class="navbar-end">
+                <button class="nav-icon-btn" onclick="toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <button class="nav-icon-btn" onclick="toggleProfile()">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dashboard</h3>
+            <button class="sidebar-close" onclick="closeSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-link active" onclick="navigateTo('dashboard')">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-link" onclick="navigateTo('exams')">
+                <i class="fas fa-book"></i>
+                <span>All Exams</span>
+            </a>
+            <a href="#" class="nav-link" onclick="navigateTo('progress')">
+                <i class="fas fa-chart-line"></i>
+                <span>My Progress</span>
+            </a>
+            <a href="#" class="nav-link" onclick="navigateTo('leaderboard')">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </a>
+            <a href="#" class="nav-link" onclick="navigateTo('results')">
+                <i class="fas fa-file-check"></i>
+                <span>Results</span>
+            </a>
+            <a href="#" class="nav-link" onclick="navigateTo('settings')">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="content-section active">
+            <div class="page-header">
+                <h1>Welcome, <span id="userName">User</span>!</h1>
+                <p>Track your progress and prepare for your dream job</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon exams-taken">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="examsTaken">0</h3>
+                        <p>Exams Taken</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon avg-score">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="avgScore">0%</h3>
+                        <p>Average Score</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon rank">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="userRank">#0</h3>
+                        <p>Global Rank</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon streak">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="streak">0</h3>
+                        <p>Day Streak</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-section">
+                <h2>Recent Activity</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Completed Data Structures Exam</h4>
+                            <span>Scored 85% • 2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Ranked in Top 100</h4>
+                            <span>Great performance! • 1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Exams -->
+            <h2>Recommended For You</h2>
+            <div class="exams-grid" id="recommendedExams">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- All Exams Section -->
+        <section id="examsSection" class="content-section">
+            <div class="page-header">
+                <h1>All Exams</h1>
+                <p>Choose from our comprehensive exam categories</p>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label>Difficulty:</label>
+                    <select onchange="filterExams()">
+                        <option value="">All Levels</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select onchange="filterExams()">
+                        <option value="">All Categories</option>
+                        <option value="dsa">Data Structures</option>
+                        <option value="web">Web Development</option>
+                        <option value="ml">Machine Learning</option>
+                        <option value="database">Database</option>
+                        <option value="system">System Design</option>
+                        <option value="devops">Cloud & DevOps</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="exams-grid-5col" id="allExamsGrid">
+                <!-- Dynamically populated with 5 per row -->
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progressSection" class="content-section">
+            <div class="page-header">
+                <h1>My Progress</h1>
+                <p>Track your learning journey</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-chart">
+                    <h3>Performance Over Time</h3>
+                    <div class="chart-placeholder">
+                        <p>Line chart would display here</p>
+                    </div>
+                </div>
+
+                <div class="progress-stats">
+                    <h3>Category Performance</h3>
+                    <div class="category-progress">
+                        <div class="progress-item">
+                            <span>DSA</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                            <span class="percentage">85%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Web Dev</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 72%"></div>
+                            </div>
+                            <span class="percentage">72%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>ML/AI</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%"></div>
+                            </div>
+                            <span class="percentage">68%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Database</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%"></div>
+                            </div>
+                            <span class="percentage">78%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section id="leaderboardSection" class="content-section">
+            <div class="page-header">
+                <h1>Global Leaderboard</h1>
+                <p>See how you rank among all users</p>
+            </div>
+
+            <div class="leaderboard-filters">
+                <select onchange="filterLeaderboard()">
+                    <option value="all">All Time</option>
+                    <option value="month">This Month</option>
+                    <option value="week">This Week</option>
+                    <option value="day">Today</option>
+                </select>
+            </div>
+
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Score</th>
+                        <th>Exams</th>
+                        <th>Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Dynamically populated -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settingsSection" class="content-section">
+            <div class="page-header">
+                <h1>Settings</h1>
+                <p>Manage your account and preferences</p>
+            </div>
+
+            <div class="settings-container">
+                <div class="settings-section">
+                    <h2>Profile Settings</h2>
+                    <form onsubmit="saveSettings(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="settingsName" value="">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="settingsEmail" value="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea id="settingsBio" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
+                </div>
+
+                <div class="settings-section">
+                    <h2>Notification Preferences</h2>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" checked>
+                            <span>Email notifications</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" checked>
+                            <span>Exam reminders</span>
+                        </label>
+                        <label>
+                            <input type="checkbox">
+                            <span>Newsletter</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h2>Security</h2>
+                    <button class="btn-secondary" onclick="changePassword()">Change Password</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Notifications Dropdown -->
+    <div class="notifications-dropdown" id="notificationsDropdown">
+        <div class="dropdown-header">
+            <h3>Notifications</h3>
+            <button onclick="closeNotifications()" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="notifications-list">
+            <div class="notification-item">
+                <i class="fas fa-bell"></i>
+                <div>
+                    <p>New exam available: Advanced ML</p>
+                    <span>2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <i class="fas fa-trophy"></i>
+                <div>
+                    <p>You ranked in top 100!</p>
+                    <span>1 day ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <i class="fas fa-warning"></i>
+                <div>
+                    <p>Free trial expires in 5 days</p>
+                    <span>3 days ago</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <div class="profile-header">
+            <img src="https://i.pravatar.cc/100" alt="User">
+            <div>
+                <h3 id="profileName">User Name</h3>
+                <p id="profileEmail">user@email.com</p>
+            </div>
+        </div>
+        <div class="profile-options">
+            <a href="#" onclick="navigateTo('settings')">Settings</a>
+            <a href="#" onclick="navigateTo('results')">My Results</a>
+            <hr>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script src="portal.js"></script>
+</body>
+</html>
