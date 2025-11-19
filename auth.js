@@ -413,3 +413,17 @@ window.addEventListener('load', () => {
         }
     }
 });
+
+// LOGOUT HANDLER
+function handleLogout() {
+    // Clear authentication data
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    // Optionally clear rememberMe if you want to log out completely
+    // localStorage.removeItem('rememberMe');
+    // localStorage.removeItem('rememberEmail');
+    showToast('Logged out successfully!', 'success');
+    setTimeout(() => {
+        window.location.href = 'landing.html';
+    }, 1000);
+}
