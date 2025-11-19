@@ -255,5 +255,5 @@ For feature requests or feedback, use the admin panel to manage questions and cu
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: November 2024  
+**Last Updated**: November 2025  
 **Built with**: ❤️ for professional skill assessment
