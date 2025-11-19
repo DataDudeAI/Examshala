@@ -173,7 +173,7 @@ Your `.github/workflows/deploy.yml` automatically:
 ### Step 2: Connect GitHub Repository
 1. In Netlify dashboard, click **"Add new site"** → **"Import an existing project"**
 2. Select **GitHub**
-3. Search for **exampro** repository
+3. Search for **Examshala** repository
 4. Click **Import**
 
 ### Step 3: Configure Build Settings
