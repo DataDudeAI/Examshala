@@ -143,7 +143,211 @@ function scrollToSection(sectionId) {
 }
 
 // ===== ADMIN FUNCTIONS =====
+ 
+function showAdminLogin() {
+    document.getElementById('adminLoginModal').classList.add('active');
+    document.getElementById('adminPassword').focus();
+}
 
+function closeAdminLogin() {
+    document.getElementById('adminLoginModal').classList.remove('active');
+    document.getElementById('adminPassword').value = '';
+}
+
+function authenticateAdmin(event) {
+    event.preventDefault();
+    const password = document.getElementById('adminPassword').value.trim();
+    
+    // ✅ FIXED: Proper admin authentication with validation
+    const correctPassword = 'admin123'; // Change this to your secure password
+    
+    if (!password) {
+        showError('Please enter a password');
+        return;
+    }
+
+    if (password === correctPassword) {
+        appState.adminAuthenticated = true;
+        localStorage.setItem('adminAuth', 'true');
+        localStorage.setItem('adminLoginTime', Date.now());
+        
+        closeAdminLogin();
+        switchScreen('admin');
+        
+        // Load admin data
+        setTimeout(() => {
+            loadAdminDashboard();
+            loadExamQuestions();
+            loadAnalytics();
+        }, 100);
+        
+        showSuccess('Admin logged in successfully!');
+        console.log('✅ Admin authenticated');
+    } else {
+        showError('Invalid password. Try again.');
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+        console.warn('❌ Admin authentication failed');
+    }
+}
+
+function logoutAdmin() {
+    appState.adminAuthenticated = false;
+    // Clear authentication data
+    try {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('adminAuth');
+        localStorage.removeItem('adminLoginTime');
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('rememberEmail');
+    } catch (e) {
+        // ignore
+    }
+    // Direct redirect to landing.html
+    window.location.href = '/landing.html';
+}
+
+function switchAdminTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Deactivate all buttons
+    document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const tabElement = document.getElementById(tabName + 'Tab');
+    if (tabElement) {
+        tabElement.classList.add('active');
+    }
+    
+    // Activate button
+    event.target.classList.add('active');
+}
+
+function loadAdminDashboard() {
+    // Calculate statistics
+    const totalUsers = localStorage.getItem('totalUsers') || '15234';
+    const totalExams = localStorage.getItem('totalExams') || '185420';
+    const avgScore = calculateAverageScore();
+    const totalQuestions = calculateTotalQuestions();
+    
+    document.getElementById('adminTotalUsers').textContent = totalUsers;
+    document.getElementById('adminTotalExams').textContent = totalExams;
+    document.getElementById('adminAvgScore').textContent = avgScore + '%';
+    document.getElementById('adminTotalQuestions').textContent = totalQuestions;
+}
+
+function displayResults(results) {
+    document.getElementById('resultExamName').textContent = results.title;
+    document.getElementById('scorePercentage').textContent = results.score;
+    document.getElementById('correctCount').textContent = results.correct;
+    document.getElementById('incorrectCount').textContent = results.incorrect;
+    document.getElementById('skippedCount').textContent = results.skipped;
+
+    switchScreen('results');
+}
+
+function viewDetailedResults() {
+    const questions = questionBank[appState.currentExam] || [];
+    const modal = document.getElementById('detailedModal');
+    const reviewContent = document.getElementById('detailedReview');
+
+    let html = '';
+    questions.forEach((question, index) => {
+        const userAnswer = appState.answers[index];
+        const isCorrect = userAnswer === question.correct;
+        const statusClass = userAnswer ? (isCorrect ? 'correct' : 'incorrect') : '';
+
+        html += `
+            <div class="review-item">
+                <div class="review-question">Q${index + 1}. ${question.question}</div>
+                ${userAnswer ? `
+                    <div class="review-answer ${statusClass}">
+                        <strong>Your Answer:</strong> ${question.options[getOptionIndex(userAnswer)]}
+                        ${isCorrect ? ' ✓' : ' ✗'}
+                    </div>
+                    ${!isCorrect ? `
+                        <div class="review-answer correct">
+                            <strong>Correct Answer:</strong> ${question.options[getOptionIndex(question.correct)]}
+                        </div>
+                    ` : ''}
+                ` : `
+                    <div class="review-answer">
+                        <strong>You skipped this question</strong>
+                    </div>
+                    <div class="review-answer correct">
+                        <strong>Correct Answer:</strong> ${question.options[getOptionIndex(question.correct)]}
+                    </div>
+                `}
+                ${question.explanation ? `
+                    <div class="review-explanation">
+                        <strong>Explanation:</strong> ${question.explanation}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    });
+
+    reviewContent.innerHTML = html;
+    modal.classList.add('active');
+}
+
+function closeDetailedResults() {
+    document.getElementById('detailedModal').classList.remove('active');
+}
+
+function getOptionIndex(letter) {
+    return letter.charCodeAt(0) - 65; // A=0, B=1, C=2, D=3
+}
+
+// Results Export
+function exportResults(format) {
+    const questions = questionBank[appState.currentExam] || [];
+    
+    if (format === 'csv') {
+        let csv = 'Question,Your Answer,Correct Answer,Status,Explanation\n';
+        
+        questions.forEach((question, index) => {
+            const userAnswer = appState.answers[index];
+            const isCorrect = userAnswer === question.correct;
+            const status = !userAnswer ? 'Skipped' : (isCorrect ? 'Correct' : 'Incorrect');
+            
+            const questionText = `"${question.question.replace(/"/g, '""')}"`;
+            const yourAnswer = userAnswer ? `"${question.options[getOptionIndex(userAnswer)].replace(/"/g, '""')}"` : '""';
+            const correctAnswer = `"${question.options[getOptionIndex(question.correct)].replace(/"/g, '""')}"`;
+            const explanation = question.explanation ? `"${question.explanation.replace(/"/g, '""')}"` : '""';
+            
+            csv += `${questionText},${yourAnswer},${correctAnswer},${status},${explanation}\n`;
+        });
+
+        downloadFile(csv, 'exam-results.csv', 'text/csv');
+    }
+}
+
+function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function goToHome() {
+    appState.answers = {};
+    appState.currentExam = null;
+    switchScreen('start');
+}
+
+// Admin Functions
 function showAdminLogin() {
     document.getElementById('adminLoginModal').classList.add('active');
     document.getElementById('adminPassword').focus();

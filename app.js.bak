@@ -1,0 +1,13 @@
+// Application State
+let appState = {
+    currentScreen: 'start',
+    currentExam: null,
+    currentQuestion: 0,
+    answers: {},
+    timeRemaining: 0,
+    examStarted: false,
+    adminAuthenticated: false,
+    timerInterval: null,
+};
+
+// ...backup content truncated for brevity...
