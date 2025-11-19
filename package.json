@@ -9,6 +9,7 @@
     "firebase-admin": "^11.11.0"
   },
   "scripts": {
-    "lint": "node -c app-pro.js"
+    "lint": "node -c app-pro.js",
+    "test": "node --test tests/score-utils.test.js"
   }
 }

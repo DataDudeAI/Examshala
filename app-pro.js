@@ -21,6 +21,7 @@ let appState = {
         bestScore: 0,
         examHistory: []
     }
+    pendingExam: null
 };
 
 // ===== EXAM CONFIGURATION =====
@@ -482,9 +483,11 @@ function setupEventListeners() {
 function startExam(examKey) {
     // Check if user is logged in
     if (!appState.userProfile || !appState.userProfile.name || appState.userProfile.name === 'Guest Learner') {
+        appState.pendingExam = examKey;
         showLoginModal();
         return;
     }
+    appState.pendingExam = null;
     if (!examConfig[examKey]) {
         showError('Exam not found');
         return;
@@ -871,13 +874,9 @@ function renderExamAnalytics() {
         return;
     }
 
-    const averageScore = Math.round(results.reduce((sum, r) => sum + r.score, 0) / results.length);
-    const bestAttempt = Math.max(...results.map(r => r.score));
-    const frequency = results.reduce((acc, r) => {
-        acc[r.exam] = (acc[r.exam] || 0) + 1;
-        return acc;
-    }, {});
-    const mostTakenExam = Object.entries(frequency).sort((a, b) => b[1] - a[1])[0] || ['', 0];
+    const averageScore = scoreUtils.calculateAverageScore(results);
+    const bestAttempt = scoreUtils.calculateBestScore(results);
+    const popularExam = scoreUtils.getMostTakenExam(results);
 
     container.innerHTML = `
         <div class="analytics-card">
@@ -892,8 +891,8 @@ function renderExamAnalytics() {
         </div>
         <div class="analytics-card">
             <h3>Popular Exam</h3>
-            <strong>${mostTakenExam[0] || '—'}</strong>
-            <p>${mostTakenExam[1]} attempt${mostTakenExam[1] === 1 ? '' : 's'}.</p>
+            <strong>${popularExam.exam || '—'}</strong>
+            <p>${popularExam.attempts} attempt${popularExam.attempts === 1 ? '' : 's'}.</p>
         </div>
     `;
 }
@@ -959,9 +958,7 @@ function downloadFile(content, filename, type) {
 
 function calculateAverageScore() {
     const results = JSON.parse(localStorage.getItem('examResults') || '[]');
-    if (results.length === 0) return 0;
-    const total = results.reduce((sum, r) => sum + r.score, 0);
-    return Math.round(total / results.length);
+    return scoreUtils.calculateAverageScore(results);
 }
 
 function calculateTotalQuestions() {
@@ -1029,9 +1026,10 @@ function loginUser(event) {
     };
     localStorage.setItem('userProfile', JSON.stringify(appState.userProfile));
     closeUserLoginModal();
-    // Resume exam start (find last attempted exam)
-    if (appState.currentExam) {
-        startExam(appState.currentExam);
+    const examToStart = appState.pendingExam || appState.currentExam;
+    appState.pendingExam = null;
+    if (examToStart) {
+        startExam(examToStart);
     }
 }
 
