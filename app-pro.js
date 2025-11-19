@@ -20,7 +20,7 @@ let appState = {
         totalScore: 0,
         bestScore: 0,
         examHistory: []
-    }
+    },
     pendingExam: null
 };
 
@@ -676,8 +676,9 @@ function submitExam() {
     });
 
     const score = Math.round((correctCount / questions.length) * 100);
-    const incorrect = questions.length - correctCount - (Object.keys(answers).length - correctCount);
-    const skipped = questions.length - Object.keys(answers).length;
+    const attemptedCount = Object.keys(answers).length;
+    const incorrect = Math.max(attemptedCount - correctCount, 0);
+    const skipped = Math.max(questions.length - attemptedCount, 0);
 
     // Update user profile stats
     if (appState.userProfile) {
@@ -707,6 +708,8 @@ function submitExam() {
         user: appState.userProfile ? appState.userProfile.name : 'Guest'
     });
     localStorage.setItem('examResults', JSON.stringify(examResults));
+
+    appState.examStarted = false;
 
     // Display results
     displayResults({
