@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <style>
+        body { font-family: Arial; }
+        .hero { background: blue; padding: 100px; color: white; }
+        .screen { display: none; }
+        .screen.active { display: block; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="startScreen" class="screen active">
+            <section class="hero">
+                <h1>✅ Page is Loading Correctly</h1>
+                <p>If you see this text with blue background, the HTML/CSS is working.</p>
+            </section>
+        </div>
+        <div id="examScreen" class="screen">
+            <h1>Exam Screen</h1>
+        </div>
+    </div>
+    
+    <script>
+        console.log('✅ Test page loaded');
+        console.log('Start screen:', document.getElementById('startScreen'));
+    </script>
+</body>
+</html>
