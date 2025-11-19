@@ -1,0 +1,101 @@
+# Netlify Configuration File
+# This file configures build settings, functions, redirects, and headers for Netlify deployment
+
+[build]
+  # Build command (no build step needed for static HTML)
+  command = "echo 'Build complete - static files ready'"
+  
+  # Functions directory (for serverless functions)
+  functions = "netlify/functions"
+  
+  # Publish directory (what gets deployed)
+  publish = "."
+
+# Production context configuration
+[context.production]
+  # Environment variables specific to production
+  environment = { NETLIFY_FUNCTIONS = "true", NODE_ENV = "production" }
+
+# Development context configuration
+[context.dev]
+  # Allow running locally with netlify dev
+  command = "echo 'Development ready'"
+  environment = { NODE_ENV = "development" }
+
+# URL redirects for single-page app routing
+# This ensures all requests go to index.html for client-side routing
+[[redirects]]
+  # Match all URL paths
+  from = "/*"
+  # Redirect to index.html
+  to = "/index.html"
+  # HTTP status code for redirect
+  status = 200
+
+# Security headers for all requests
+[[headers]]
+  # Apply to all files
+  for = "/*"
+  
+  [headers.values]
+    # Prevent clickjacking attacks
+    X-Frame-Options = "SAMEORIGIN"
+    
+    # Prevent MIME type sniffing
+    X-Content-Type-Options = "nosniff"
+    
+    # Enable XSS protection in older browsers
+    X-XSS-Protection = "1; mode=block"
+    
+    # Control referrer information
+    Referrer-Policy = "no-referrer-when-downgrade"
+    
+    # Content Security Policy (adjust as needed for your resources)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:"
+
+# Headers for API functions (CORS)
+[[headers]]
+  for = "/.netlify/functions/*"
+  
+  [headers.values]
+    # Allow requests from any origin
+    Access-Control-Allow-Origin = "*"
+    
+    # Allow common HTTP methods
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    
+    # Allow headers
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Custom 404 page (optional)
+[[redirects]]
+  from = "/404"
+  to = "/index.html"
+  status = 404
+
+# Cache control for different file types
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    # Don't cache HTML (check for updates)
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/styles.css"
+  [headers.values]
+    # Cache CSS for 1 week
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/app.js"
+  [headers.values]
+    # Cache JS for 1 week
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "*.json"
+  [headers.values]
+    # Allow CORS for JSON files (for import/export)
+    Access-Control-Allow-Origin = "*"
+    # Cache JSON for 1 hour
+    Cache-Control = "public, max-age=3600"

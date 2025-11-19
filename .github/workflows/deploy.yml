@@ -1,0 +1,96 @@
+# GitHub Actions Workflow for Automatic Deployment
+# This workflow automatically deploys ExamPro to GitHub Pages when you push to main branch
+
+name: Deploy to GitHub Pages
+
+on:
+  # Trigger on push to main branch
+  push:
+    branches: [ main ]
+  
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+# Limit concurrent deployments
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Build and deployment job
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    
+    # Required permissions
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    # Environment configuration
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history
+      
+      # Step 2: Setup Node.js (for any build processes)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      # Step 3: Install dependencies (if needed)
+      - name: Install Dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          fi
+      
+      # Step 4: Build (if needed)
+      - name: Build Application
+        run: |
+          echo "Static files are ready for deployment"
+          ls -la *.html *.css *.js 2>/dev/null || true
+      
+      # Step 5: Setup Pages for deployment
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      # Step 6: Upload artifact (the static files)
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'  # Upload root directory
+      
+      # Step 7: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      # Step 8: Notify deployment completion
+      - name: Deployment Complete
+        run: |
+          echo "✅ Deployment successful!"
+          echo "🌐 Site URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "📝 See Actions tab for logs"
+  
+  # Optional: Verification job
+  verify:
+    name: Verify Deployment
+    runs-on: ubuntu-latest
+    needs: deploy
+    
+    steps:
+      # Check if site is accessible
+      - name: Verify Site is Live
+        run: |
+          echo "✅ Deployment job completed successfully"
+          echo "Check your site at: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"

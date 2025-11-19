@@ -1,0 +1,97 @@
+{
+  "examType": "dsa",
+  "title": "Data Structures & Algorithms",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the time complexity of binary search on a sorted array?",
+      "options": ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+      "correct": "B",
+      "explanation": "Binary search divides the search space in half with each iteration, resulting in O(log n) time complexity."
+    },
+    {
+      "id": 2,
+      "question": "Which data structure uses LIFO (Last In First Out) principle?",
+      "options": ["Queue", "Stack", "Hash Table", "Priority Queue"],
+      "correct": "B",
+      "explanation": "Stack follows the LIFO principle where the last element added is the first to be removed."
+    },
+    {
+      "id": 3,
+      "question": "What is the space complexity of QuickSort algorithm?",
+      "options": ["O(n)", "O(log n)", "O(1)", "O(n²)"],
+      "correct": "B",
+      "explanation": "QuickSort has O(log n) average space complexity due to the recursion call stack depth."
+    },
+    {
+      "id": 4,
+      "question": "In a binary search tree, what property must be satisfied?",
+      "options": [
+        "Left subtree values ≤ parent ≤ right subtree values",
+        "All values are unique",
+        "Tree must be perfectly balanced",
+        "All leaves at the same level"
+      ],
+      "correct": "A",
+      "explanation": "A BST maintains the property that all values in the left subtree are less than the parent, and all values in the right subtree are greater."
+    },
+    {
+      "id": 5,
+      "question": "What is the time complexity of searching in a balanced binary search tree?",
+      "options": ["O(n)", "O(log n)", "O(1)", "O(n²)"],
+      "correct": "B",
+      "explanation": "In a balanced BST, search has O(log n) time complexity as we eliminate half the nodes with each comparison."
+    },
+    {
+      "id": 6,
+      "question": "Which sorting algorithm is stable and has O(n log n) worst-case time complexity?",
+      "options": ["QuickSort", "HeapSort", "MergeSort", "BubbleSort"],
+      "correct": "C",
+      "explanation": "MergeSort is stable and maintains O(n log n) time complexity in all cases (worst, average, best)."
+    },
+    {
+      "id": 7,
+      "question": "What is the primary advantage of using a hash table?",
+      "options": [
+        "Maintains sorted order",
+        "Average O(1) time for insertion, deletion, and lookup",
+        "Uses less memory",
+        "Better cache locality"
+      ],
+      "correct": "B",
+      "explanation": "Hash tables provide average O(1) time complexity for basic operations through hashing."
+    },
+    {
+      "id": 8,
+      "question": "In dynamic programming, what is memoization?",
+      "options": [
+        "Sorting the input array",
+        "Storing previously computed results to avoid redundant calculations",
+        "Using recursion without any optimization",
+        "Dividing problem into independent subproblems"
+      ],
+      "correct": "B",
+      "explanation": "Memoization is an optimization technique where we cache results of expensive function calls."
+    },
+    {
+      "id": 9,
+      "question": "What is the time complexity of the Dijkstra algorithm with a priority queue?",
+      "options": ["O(V²)", "O(V + E)", "O((V + E) log V)", "O(E log V)"],
+      "correct": "C",
+      "explanation": "With a priority queue implementation, Dijkstra's algorithm has O((V + E) log V) time complexity."
+    },
+    {
+      "id": 10,
+      "question": "Which statement is true about a graph with V vertices and E edges?",
+      "options": [
+        "E is always ≤ V",
+        "E is always ≤ V²",
+        "E is always ≥ V",
+        "E is always > V²"
+      ],
+      "correct": "B",
+      "explanation": "In a simple undirected graph, the maximum number of edges is V(V-1)/2, which is O(V²)."
+    }
+  ],
+  "exportedAt": "2024-11-19T10:30:00.000Z"
+}

@@ -1,0 +1,112 @@
+{
+  "examType": "ml",
+  "title": "Machine Learning & AI Concepts",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What does supervised learning require?",
+      "options": ["Unlabeled data", "Labeled training data", "No data", "Random data"],
+      "correct": "B",
+      "explanation": "Supervised learning requires labeled training data where each input has a corresponding output label for the model to learn from."
+    },
+    {
+      "id": 2,
+      "question": "What is the primary purpose of regularization in machine learning?",
+      "options": [
+        "To increase model complexity",
+        "To prevent overfitting",
+        "To speed up training",
+        "To reduce memory usage"
+      ],
+      "correct": "B",
+      "explanation": "Regularization adds a penalty term to the loss function to prevent overfitting by discouraging overly complex models."
+    },
+    {
+      "id": 3,
+      "question": "Which of the following is an unsupervised learning algorithm?",
+      "options": ["Linear Regression", "Decision Trees", "K-Means Clustering", "Logistic Regression"],
+      "correct": "C",
+      "explanation": "K-Means is an unsupervised learning algorithm used for clustering unlabeled data into k clusters."
+    },
+    {
+      "id": 4,
+      "question": "What is the purpose of the activation function in neural networks?",
+      "options": [
+        "To speed up training",
+        "To introduce non-linearity",
+        "To reduce memory usage",
+        "To normalize weights"
+      ],
+      "correct": "B",
+      "explanation": "Activation functions introduce non-linearity to neural networks, allowing them to learn complex patterns."
+    },
+    {
+      "id": 5,
+      "question": "In cross-validation, what is the purpose of k-fold validation?",
+      "options": [
+        "To reduce training time",
+        "To get a more reliable estimate of model performance",
+        "To increase model accuracy",
+        "To reduce memory usage"
+      ],
+      "correct": "B",
+      "explanation": "K-fold cross-validation splits data into k subsets and trains k models, providing a more reliable performance estimate."
+    },
+    {
+      "id": 6,
+      "question": "What is the vanishing gradient problem in deep neural networks?",
+      "options": [
+        "Gradients become very large during backpropagation",
+        "Gradients become extremely small, making training difficult",
+        "All gradients become zero",
+        "Gradients become negative"
+      ],
+      "correct": "B",
+      "explanation": "The vanishing gradient problem occurs when gradients become exponentially small during backpropagation, making it hard to train deep networks."
+    },
+    {
+      "id": 7,
+      "question": "Which metric is best for imbalanced classification problems?",
+      "options": ["Accuracy", "Precision and Recall", "MSE", "R-squared"],
+      "correct": "B",
+      "explanation": "For imbalanced datasets, Precision and Recall are better metrics than accuracy as accuracy can be misleading."
+    },
+    {
+      "id": 8,
+      "question": "What does the confusion matrix show?",
+      "options": [
+        "Training loss over time",
+        "Feature importance",
+        "True positives, false positives, true negatives, false negatives",
+        "Model accuracy trends"
+      ],
+      "correct": "C",
+      "explanation": "A confusion matrix shows the breakdown of correct and incorrect predictions for each class."
+    },
+    {
+      "id": 9,
+      "question": "What is feature scaling used for?",
+      "options": [
+        "To reduce model complexity",
+        "To normalize features to a similar range",
+        "To increase training speed",
+        "To eliminate outliers"
+      ],
+      "correct": "B",
+      "explanation": "Feature scaling normalizes input features to have similar ranges, improving model training and convergence."
+    },
+    {
+      "id": 10,
+      "question": "What is the purpose of dropout in neural networks?",
+      "options": [
+        "To speed up training",
+        "To reduce memory usage",
+        "To prevent overfitting by randomly deactivating neurons",
+        "To improve activation functions"
+      ],
+      "correct": "C",
+      "explanation": "Dropout randomly deactivates neurons during training to prevent overfitting and create an ensemble effect."
+    }
+  ],
+  "exportedAt": "2024-11-19T10:30:00.000Z"
+}

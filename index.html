@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPro - Professional Skill Assessment Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <div class="container">
+                <div class="start-header">
+                    <div class="logo">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <rect width="48" height="48" rx="8" fill="#4F46E5"/>
+                            <path d="M24 12L32 18V32C32 33.1 31.1 34 30 34H18C16.9 34 16 33.1 16 32V18L24 12Z" fill="white"/>
+                            <path d="M24 18V28M20 24H28" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h1>ExamPro</h1>
+                    <p class="tagline">Professional Skills Assessment & Interview Preparation</p>
+                </div>
+
+                <div class="exam-cards">
+                    <div class="exam-card" data-exam="dsa">
+                        <div class="card-header">
+                            <span class="category-badge">Programming</span>
+                        </div>
+                        <h2>Data Structures & Algorithms</h2>
+                        <p>Master fundamental DSA concepts essential for coding interviews</p>
+                        <div class="card-meta">
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 4V8L11 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                45 min
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 6H14M4 2H12C13.1 2 14 2.9 14 4V14C14 15.1 13.1 16 12 16H4C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                30 Questions
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 2L14.12 4.12C14.5 4.5 14.5 5.1 14.12 5.48L5.12 14.48C4.74 14.86 4.14 14.86 3.76 14.48L1.64 12.36C1.26 11.98 1.26 11.38 1.64 11L10.64 2C10.86 1.78 11.14 1.68 11.42 1.68C11.7 1.68 11.98 1.78 12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Hard
+                            </span>
+                        </div>
+                        <button class="btn btn-primary start-btn">Start Exam</button>
+                    </div>
+
+                    <div class="exam-card" data-exam="web">
+                        <div class="card-header">
+                            <span class="category-badge web">Web Development</span>
+                        </div>
+                        <h2>Web Development Fundamentals</h2>
+                        <p>Test your knowledge of HTML, CSS, JavaScript, and modern frameworks</p>
+                        <div class="card-meta">
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 4V8L11 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                40 min
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 6H14M4 2H12C13.1 2 14 2.9 14 4V14C14 15.1 13.1 16 12 16H4C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                25 Questions
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 2L14.12 4.12C14.5 4.5 14.5 5.1 14.12 5.48L5.12 14.48C4.74 14.86 4.14 14.86 3.76 14.48L1.64 12.36C1.26 11.98 1.26 11.38 1.64 11L10.64 2C10.86 1.78 11.14 1.68 11.42 1.68C11.7 1.68 11.98 1.78 12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Medium
+                            </span>
+                        </div>
+                        <button class="btn btn-primary start-btn">Start Exam</button>
+                    </div>
+
+                    <div class="exam-card" data-exam="ml">
+                        <div class="card-header">
+                            <span class="category-badge ml">AI & ML</span>
+                        </div>
+                        <h2>Machine Learning & AI Concepts</h2>
+                        <p>Understand ML algorithms, neural networks, and AI fundamentals</p>
+                        <div class="card-meta">
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 4V8L11 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                50 min
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 6H14M4 2H12C13.1 2 14 2.9 14 4V14C14 15.1 13.1 16 12 16H4C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                35 Questions
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 2L14.12 4.12C14.5 4.5 14.5 5.1 14.12 5.48L5.12 14.48C4.74 14.86 4.14 14.86 3.76 14.48L1.64 12.36C1.26 11.98 1.26 11.38 1.64 11L10.64 2C10.86 1.78 11.14 1.68 11.42 1.68C11.7 1.68 11.98 1.78 12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Hard
+                            </span>
+                        </div>
+                        <button class="btn btn-primary start-btn">Start Exam</button>
+                    </div>
+
+                    <div class="exam-card" data-exam="database">
+                        <div class="card-header">
+                            <span class="category-badge db">Databases</span>
+                        </div>
+                        <h2>Database Design & SQL Mastery</h2>
+                        <p>SQL, database design, optimization, and NoSQL concepts</p>
+                        <div class="card-meta">
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M8 4V8L11 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                45 min
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 6H14M4 2H12C13.1 2 14 2.9 14 4V14C14 15.1 13.1 16 12 16H4C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                28 Questions
+                            </span>
+                            <span class="meta-item">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 2L14.12 4.12C14.5 4.5 14.5 5.1 14.12 5.48L5.12 14.48C4.74 14.86 4.14 14.86 3.76 14.48L1.64 12.36C1.26 11.98 1.26 11.38 1.64 11L10.64 2C10.86 1.78 11.14 1.68 11.42 1.68C11.7 1.68 11.98 1.78 12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Hard
+                            </span>
+                        </div>
+                        <button class="btn btn-primary start-btn">Start Exam</button>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <button class="btn btn-secondary" onclick="showAdminLogin()">Admin Panel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Screen -->
+        <div id="examScreen" class="screen">
+            <div class="exam-header">
+                <div class="header-left">
+                    <button class="btn-icon" onclick="exitExam()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <div class="exam-title-section">
+                        <h2 id="examTitle"></h2>
+                        <span class="question-counter"><span id="currentQuestion">1</span> of <span id="totalQuestions">30</span></span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="timer" id="timer">45:00</div>
+                    <button class="btn-icon" onclick="toggleTimerWarning()" title="Toggle timer">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M10 6V10L13 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="exam-container">
+                <div class="exam-sidebar">
+                    <div class="progress-section">
+                        <h3>Progress</h3>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <p class="progress-text"><span id="attemptedCount">0</span> attempted</p>
+                    </div>
+
+                    <div class="questions-nav">
+                        <h3>Questions</h3>
+                        <div id="questionsList" class="questions-list"></div>
+                    </div>
+                </div>
+
+                <div class="exam-main">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <h3 id="questionText"></h3>
+                        </div>
+
+                        <div class="options-container">
+                            <div id="optionsContainer"></div>
+                        </div>
+
+                        <div class="question-footer">
+                            <div class="question-actions">
+                                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">← Previous</button>
+                                <button class="btn btn-secondary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                                <button class="btn btn-primary" id="submitBtn" onclick="submitExam()" style="display:none;">Submit Exam</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen">
+            <div class="results-container">
+                <div class="results-header">
+                    <h1>Exam Completed! 🎉</h1>
+                    <p class="exam-name" id="resultExamName"></p>
+                </div>
+
+                <div class="score-section">
+                    <div class="score-circle">
+                        <div class="score-value">
+                            <span id="scorePercentage">0</span>%
+                        </div>
+                        <div class="score-label">Score</div>
+                    </div>
+
+                    <div class="score-details">
+                        <div class="detail-item correct">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <span id="correctCount">0</span> Correct
+                        </div>
+                        <div class="detail-item incorrect">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7 7L13 13M13 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <span id="incorrectCount">0</span> Incorrect
+                        </div>
+                        <div class="detail-item">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 14V10M10 6V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <span id="skippedCount">0</span> Skipped
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-primary" onclick="viewDetailedResults()">View Detailed Results</button>
+                    <button class="btn btn-secondary" onclick="exportResults('csv')">Export as CSV</button>
+                    <button class="btn btn-secondary" onclick="goToHome()">Back to Home</button>
+                </div>
+            </div>
+
+            <!-- Detailed Results Modal -->
+            <div id="detailedModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Detailed Review</h2>
+                        <button class="modal-close" onclick="closeDetailedResults()">×</button>
+                    </div>
+                    <div id="detailedReview" class="modal-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminScreen" class="screen">
+            <div class="admin-container">
+                <div class="admin-header">
+                    <h1>Admin Panel</h1>
+                    <button class="btn btn-secondary" onclick="logoutAdmin()">Logout</button>
+                </div>
+
+                <div class="admin-tabs">
+                    <button class="tab-btn active" onclick="switchAdminTab('manage')">Manage Questions</button>
+                    <button class="tab-btn" onclick="switchAdminTab('import')">Import/Export</button>
+                    <button class="tab-btn" onclick="switchAdminTab('analytics')">Analytics</button>
+                </div>
+
+                <!-- Manage Questions Tab -->
+                <div id="manageTab" class="tab-content active">
+                    <div class="admin-section">
+                        <h2>Exam Selection</h2>
+                        <select id="adminExamSelect" class="form-control" onchange="loadExamQuestions()">
+                            <option value="">Select an Exam...</option>
+                            <option value="dsa">Data Structures & Algorithms</option>
+                            <option value="web">Web Development Fundamentals</option>
+                            <option value="ml">Machine Learning & AI</option>
+                            <option value="database">Database Design & SQL</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-section">
+                        <h2>Add New Question</h2>
+                        <form id="questionForm" onsubmit="addQuestion(event)">
+                            <div class="form-group">
+                                <label>Question Text *</label>
+                                <textarea id="questionInput" class="form-control" required placeholder="Enter question"></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Option A *</label>
+                                    <input type="text" id="optionA" class="form-control" required placeholder="Option A">
+                                </div>
+                                <div class="form-group">
+                                    <label>Option B *</label>
+                                    <input type="text" id="optionB" class="form-control" required placeholder="Option B">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Option C *</label>
+                                    <input type="text" id="optionC" class="form-control" required placeholder="Option C">
+                                </div>
+                                <div class="form-group">
+                                    <label>Option D *</label>
+                                    <input type="text" id="optionD" class="form-control" required placeholder="Option D">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Correct Answer *</label>
+                                    <select id="correctAnswer" class="form-control" required>
+                                        <option value="">Select correct answer</option>
+                                        <option value="A">Option A</option>
+                                        <option value="B">Option B</option>
+                                        <option value="C">Option C</option>
+                                        <option value="D">Option D</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explanation</label>
+                                    <textarea id="explanation" class="form-control" placeholder="Optional explanation for correct answer"></textarea>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Add Question</button>
+                        </form>
+                    </div>
+
+                    <div class="admin-section">
+                        <h2>Questions List</h2>
+                        <div id="questionsList" class="questions-table"></div>
+                    </div>
+                </div>
+
+                <!-- Import/Export Tab -->
+                <div id="importTab" class="tab-content">
+                    <div class="admin-section">
+                        <h2>Import Questions from JSON</h2>
+                        <div class="upload-area" id="uploadArea">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <path d="M20 8V24M14 18L20 24L26 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 28H32C33.1 28 34 28.9 34 30V34C34 35.1 33.1 36 32 36H8C6.9 36 6 35.1 6 34V30C6 28.9 6.9 28 8 28Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <p>Drop JSON file here or click to upload</p>
+                            <input type="file" id="jsonFile" accept=".json" style="display:none" onchange="importJSON(event)">
+                        </div>
+                    </div>
+
+                    <div class="admin-section">
+                        <h2>Export Questions</h2>
+                        <select id="exportExamSelect" class="form-control">
+                            <option value="">Select an Exam...</option>
+                            <option value="dsa">Data Structures & Algorithms</option>
+                            <option value="web">Web Development Fundamentals</option>
+                            <option value="ml">Machine Learning & AI</option>
+                            <option value="database">Database Design & SQL</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="exportQuestionsJSON()">Export as JSON</button>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analyticsTab" class="tab-content">
+                    <div class="admin-section">
+                        <h2>Exam Statistics</h2>
+                        <div id="analyticsContent" class="analytics-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Login Modal -->
+        <div id="adminLoginModal" class="modal">
+            <div class="modal-content login-modal">
+                <div class="modal-header">
+                    <h2>Admin Login</h2>
+                    <button class="modal-close" onclick="closeAdminLogin()">×</button>
+                </div>
+                <form onsubmit="authenticateAdmin(event)" class="modal-body">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Exit Confirmation Modal -->
+        <div id="exitModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Exit Exam?</h2>
+                </div>
+                <p class="modal-body">Are you sure you want to exit the exam? Your progress will be saved.</p>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeExitModal()">Cancel</button>
+                    <button class="btn btn-danger" onclick="confirmExit()">Exit Exam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
