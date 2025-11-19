@@ -71,7 +71,7 @@
         </nav>
 
         <div class="sidebar-footer">
-            <button class="btn-logout" onclick="logout()">
+            <button class="btn-logout" onclick="logout(); return false;">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </button>
@@ -380,7 +380,7 @@
             <a href="#" onclick="navigateTo('settings')">Settings</a>
             <a href="#" onclick="navigateTo('results')">My Results</a>
             <hr>
-            <a href="#" onclick="logout()">Logout</a>
+            <a href="#" onclick="logout(); return false;">Logout</a>
         </div>
     </div>
 
