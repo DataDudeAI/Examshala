@@ -239,7 +239,7 @@ function startExam(examId) {
     sessionStorage.setItem('nextExam', examId);
 
     setTimeout(() => {
-        const examUrl = new URL('index-pro.html', window.location.origin);
+        const examUrl = new URL('exam.html', window.location.origin);
         examUrl.searchParams.set('exam', examId);
         window.open(examUrl.toString(), '_blank', 'noopener');
     }, 500);

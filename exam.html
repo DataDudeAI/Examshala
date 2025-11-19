@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPro Elite - Exam Window</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #0f172a;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .exam-shell {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .exam-header {
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.85);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+        .exam-header h1 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+        .exam-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+            background: white;
+        }
+        .exam-status {
+            font-size: 14px;
+            color: #a5b4fc;
+        }
+        .exam-error {
+            padding: 40px;
+            text-align: center;
+            color: #fecaca;
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-shell">
+        <header class="exam-header">
+            <h1>ExamPro Elite</h1>
+            <span class="exam-status" id="examStatus">Preparing exam workspace...</span>
+        </header>
+        <iframe id="examFrame" class="exam-frame" title="Exam Workspace" src="about:blank"></iframe>
+        <div id="examError" class="exam-error" style="display:none;">
+            Unable to start the exam. Please close this tab and try launching again from the dashboard.
+        </div>
+    </div>
+
+    <script>
+        (function launchExam() {
+            const statusEl = document.getElementById('examStatus');
+            const frameEl = document.getElementById('examFrame');
+            const errorEl = document.getElementById('examError');
+
+            try {
+                const params = new URLSearchParams(window.location.search);
+                let examKey = params.get('exam');
+                const storedExam = sessionStorage.getItem('nextExam');
+                if (!examKey && storedExam) {
+                    examKey = storedExam;
+                }
+
+                sessionStorage.removeItem('nextExam');
+
+                if (!examKey) {
+                    statusEl.textContent = 'No exam selected.';
+                    errorEl.style.display = 'block';
+                    frameEl.style.display = 'none';
+                    return;
+                }
+
+                const targetUrl = new URL('index-pro.html', window.location.origin);
+                targetUrl.searchParams.set('exam', examKey);
+
+                statusEl.textContent = 'Launching exam...';
+                frameEl.src = targetUrl.toString();
+                frameEl.onload = () => {
+                    statusEl.textContent = 'Exam running in dedicated window.';
+                };
+            } catch (error) {
+                console.error('Failed to launch exam window', error);
+                statusEl.textContent = 'Something went wrong.';
+                errorEl.style.display = 'block';
+                frameEl.style.display = 'none';
+            }
+        })();
+    </script>
+</body>
+</html>
