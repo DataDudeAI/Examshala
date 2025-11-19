@@ -1,0 +1,11 @@
+{
+  "name": "examshala",
+  "version": "1.0.0",
+  "description": "ExamPro / Examshala project - Netlify functions and frontend",
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.11.0"
+  }
+}
