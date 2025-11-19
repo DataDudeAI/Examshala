@@ -724,6 +724,7 @@ function displayResults(results) {
     document.getElementById('skippedCount').textContent = results.skipped;
     
     switchScreen('results');
+    renderExamAnalytics();
 }
 
 function viewDetailedResults() {
@@ -838,6 +839,7 @@ function loadExamData() {
     if (saved) {
         questionBank = JSON.parse(saved);
     }
+    renderExamAnalytics();
 }
 
 function previewExam(examKey) {
@@ -853,6 +855,47 @@ function updateStatsDisplay() {
     document.getElementById('statLearners').textContent = '15,234';
     document.getElementById('statExams').textContent = '185,420';
     document.getElementById('statAvgScore').textContent = calculateAverageScore() + '%';
+    renderExamAnalytics();
+}
+
+function renderExamAnalytics() {
+    const container = document.getElementById('resultsAnalytics');
+    if (!container) return;
+    const results = JSON.parse(localStorage.getItem('examResults') || '[]');
+    if (results.length === 0) {
+        container.innerHTML = `
+            <div class="analytics-card">
+                <p class="muted">No exams submitted yet. Finish an exam to unlock analytics.</p>
+            </div>
+        `;
+        return;
+    }
+
+    const averageScore = Math.round(results.reduce((sum, r) => sum + r.score, 0) / results.length);
+    const bestAttempt = Math.max(...results.map(r => r.score));
+    const frequency = results.reduce((acc, r) => {
+        acc[r.exam] = (acc[r.exam] || 0) + 1;
+        return acc;
+    }, {});
+    const mostTakenExam = Object.entries(frequency).sort((a, b) => b[1] - a[1])[0] || ['', 0];
+
+    container.innerHTML = `
+        <div class="analytics-card">
+            <h3>Average Score</h3>
+            <strong>${averageScore}%</strong>
+            <p>Across ${results.length} attempt${results.length > 1 ? 's' : ''}.</p>
+        </div>
+        <div class="analytics-card">
+            <h3>Best Result</h3>
+            <strong>${bestAttempt}%</strong>
+            <p>Highest score achieved.</p>
+        </div>
+        <div class="analytics-card">
+            <h3>Popular Exam</h3>
+            <strong>${mostTakenExam[0] || '—'}</strong>
+            <p>${mostTakenExam[1]} attempt${mostTakenExam[1] === 1 ? '' : 's'}.</p>
+        </div>
+    `;
 }
 
 // ===== UTILITY HELPER FUNCTIONS =====
@@ -870,27 +913,23 @@ function showSuccess(message) {
 }
 
 function createNotification(message, type) {
+    const icons = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        info: 'info-circle'
+    };
     const div = document.createElement('div');
     div.className = `notification notification-${type}`;
     div.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <i class="fas fa-${icons[type] || 'info-circle'}"></i>
         <span>${message}</span>
     `;
-    div.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#10B981' : '#EF4444'};
-        color: white;
-        padding: 16px 24px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 2000;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        animation: slideIn 0.3s ease;
-    `;
+    document.body.appendChild(div);
+    requestAnimationFrame(() => div.classList.add('visible'));
+    setTimeout(() => {
+        div.classList.remove('visible');
+        setTimeout(() => div.remove(), 300);
+    }, 3000);
     return div;
 }
 
