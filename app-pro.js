@@ -21,7 +21,8 @@ let appState = {
         bestScore: 0,
         examHistory: []
     },
-    pendingExam: null
+    pendingExam: null,
+    sessionAuthenticated: sessionStorage.getItem('sessionAuthenticated') === 'true'
 };
 
 // ===== EXAM CONFIGURATION =====
@@ -481,8 +482,11 @@ function setupEventListeners() {
 }
 
 function startExam(examKey) {
-    // Check if user is logged in
-    if (!appState.userProfile || !appState.userProfile.name || appState.userProfile.name === 'Guest Learner') {
+    const needsLogin = !appState.sessionAuthenticated 
+        || !appState.userProfile 
+        || !appState.userProfile.name 
+        || appState.userProfile.name === 'Guest Learner';
+    if (needsLogin) {
         appState.pendingExam = examKey;
         showLoginModal();
         return;
@@ -1028,6 +1032,8 @@ function loginUser(event) {
         email
     };
     localStorage.setItem('userProfile', JSON.stringify(appState.userProfile));
+    appState.sessionAuthenticated = true;
+    sessionStorage.setItem('sessionAuthenticated', 'true');
     closeUserLoginModal();
     const examToStart = appState.pendingExam || appState.currentExam;
     appState.pendingExam = null;
