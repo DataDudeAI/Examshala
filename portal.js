@@ -322,13 +322,17 @@ function closeSidebar() {
 }
 
 // Logout
-function logout() {
+function logout(event) {
+    if (event) event.preventDefault();
+    console.log('Logout clicked - clearing storage and redirecting');
+    
     // Clear auth data
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     localStorage.removeItem('rememberMe');
     localStorage.removeItem('rememberEmail');
     
+    console.log('Storage cleared, redirecting to /landing.html');
     // Direct redirect to landing.html
     window.location.href = '/landing.html';
 }
