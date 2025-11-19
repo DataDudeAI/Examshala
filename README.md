@@ -66,6 +66,8 @@ A modern, feature-rich online examination platform designed for professional ski
    - `index.html`
    - `styles.css`
    - `app.js`
+   
+  > The `index.html` entry now mirrors `landing.html`, so loading the root URL surfaces the marketing/landing experience by default.
 3. Open `index.html` in a modern web browser
 
 ### Option 2: Local Server (Recommended)
