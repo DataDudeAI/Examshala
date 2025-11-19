@@ -480,17 +480,20 @@ function setupEventListeners() {
 }
 
 function startExam(examKey) {
+    // Check if user is logged in
+    if (!appState.userProfile || !appState.userProfile.name || appState.userProfile.name === 'Guest Learner') {
+        showLoginModal();
+        return;
+    }
     if (!examConfig[examKey]) {
         showError('Exam not found');
         return;
     }
-    
     appState.currentExam = examKey;
     appState.currentQuestion = 0;
     appState.answers = {};
     appState.examStarted = true;
     appState.timeRemaining = examConfig[examKey].duration * 60;
-    
     switchScreen('exam');
     startTimer();
     renderQuestion();
@@ -659,25 +662,56 @@ function confirmExit() {
 
 function submitExam() {
     clearInterval(appState.timerInterval);
-    
+
     const exam = appState.currentExam;
     const answers = appState.answers;
     const questions = questionBank[exam] || [];
-    
+
     let correctCount = 0;
     questions.forEach((q, idx) => {
         if (answers[idx] === q.correct) correctCount++;
     });
-    
+
     const score = Math.round((correctCount / questions.length) * 100);
-    
+    const incorrect = questions.length - correctCount - (Object.keys(answers).length - correctCount);
+    const skipped = questions.length - Object.keys(answers).length;
+
+    // Update user profile stats
+    if (appState.userProfile) {
+        appState.userProfile.examsAttempted = (appState.userProfile.examsAttempted || 0) + 1;
+        appState.userProfile.totalScore = (appState.userProfile.totalScore || 0) + score;
+        if (!appState.userProfile.bestScore || score > appState.userProfile.bestScore) {
+            appState.userProfile.bestScore = score;
+        }
+        appState.userProfile.examHistory = appState.userProfile.examHistory || [];
+        appState.userProfile.examHistory.push({
+            examName: examConfig[exam].title,
+            score,
+            date: new Date().toISOString()
+        });
+        localStorage.setItem('userProfile', JSON.stringify(appState.userProfile));
+    }
+
+    // Save exam result to localStorage
+    let examResults = JSON.parse(localStorage.getItem('examResults') || '[]');
+    examResults.push({
+        exam: examConfig[exam].title,
+        score,
+        correct: correctCount,
+        incorrect,
+        skipped,
+        date: new Date().toISOString(),
+        user: appState.userProfile ? appState.userProfile.name : 'Guest'
+    });
+    localStorage.setItem('examResults', JSON.stringify(examResults));
+
     // Display results
     displayResults({
         examName: examConfig[exam].title,
         score: score,
         correct: correctCount,
-        incorrect: questions.length - correctCount - (Object.keys(answers).length - correctCount),
-        skipped: questions.length - Object.keys(answers).length,
+        incorrect: incorrect,
+        skipped: skipped,
         total: questions.length
     });
 }
@@ -900,4 +934,66 @@ function calculateTotalQuestions() {
 }
 
 // ===== PAGE LOAD =====
+
+// ===== LOGIN MODAL =====
+function showLoginModal() {
+    // Create modal if not exists
+    let modal = document.getElementById('userLoginModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'userLoginModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content login-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-user"></i> Login Required</h2>
+                    <button class="modal-close" onclick="closeUserLoginModal()">×</button>
+                </div>
+                <form onsubmit="loginUser(event)" class="modal-body">
+                    <p class="login-subtitle">Enter your name and email to start the exam</p>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="loginName" class="form-control" placeholder="Your name" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Your email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login & Start Exam</button>
+                    <button type="button" class="btn btn-ghost btn-block" onclick="closeUserLoginModal()">Cancel</button>
+                </form>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    modal.classList.add('active');
+    document.getElementById('loginName').focus();
+}
+
+function closeUserLoginModal() {
+    const modal = document.getElementById('userLoginModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function loginUser(event) {
+    event.preventDefault();
+    const name = document.getElementById('loginName').value.trim();
+    const email = document.getElementById('loginEmail').value.trim();
+    if (!name || !email) {
+        showError('Please enter your name and email');
+        return;
+    }
+    appState.userProfile = {
+        ...appState.userProfile,
+        name,
+        email
+    };
+    localStorage.setItem('userProfile', JSON.stringify(appState.userProfile));
+    closeUserLoginModal();
+    // Resume exam start (find last attempted exam)
+    if (appState.currentExam) {
+        startExam(appState.currentExam);
+    }
+}
+
 console.log('✅ ExamPro Elite Pro Version Loaded');
