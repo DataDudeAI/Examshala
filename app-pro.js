@@ -193,7 +193,7 @@ function authenticateAdmin(event) {
 
 function logoutAdmin() {
     appState.adminAuthenticated = false;
-    // Clear authentication and redirect to public landing page
+    // Clear authentication data
     try {
         localStorage.removeItem('authToken');
         localStorage.removeItem('user');
@@ -202,17 +202,10 @@ function logoutAdmin() {
         localStorage.removeItem('rememberMe');
         localStorage.removeItem('rememberEmail');
     } catch (e) {
-        // ignore storage errors
+        // ignore
     }
-    showSuccess('Admin logged out');
-    setTimeout(() => {
-        try {
-            const landingUrl = `${window.location.origin}/landing.html`;
-            window.location.replace(landingUrl);
-        } catch (e) {
-            window.location.href = '/';
-        }
-    }, 800);
+    // Direct redirect to landing.html
+    window.location.href = '/landing.html';
 }
 
 function switchAdminTab(tabName) {

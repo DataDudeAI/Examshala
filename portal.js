@@ -323,17 +323,14 @@ function closeSidebar() {
 
 // Logout
 function logout() {
+    // Clear auth data
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
-    showToast('Logged out successfully', 'success');
-    setTimeout(() => {
-        try {
-            const landingUrl = `${window.location.origin}/landing.html`;
-            window.location.replace(landingUrl);
-        } catch (e) {
-            window.location.href = '/';
-        }
-    }, 800);
+    localStorage.removeItem('rememberMe');
+    localStorage.removeItem('rememberEmail');
+    
+    // Direct redirect to landing.html
+    window.location.href = '/landing.html';
 }
 
 // Toast notification

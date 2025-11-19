@@ -419,18 +419,9 @@ function handleLogout() {
     // Clear authentication data
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
-    // Optionally clear rememberMe if you want to log out completely
-    // localStorage.removeItem('rememberMe');
-    // localStorage.removeItem('rememberEmail');
-    showToast('Logged out successfully!', 'success');
-    setTimeout(() => {
-        try {
-            const landingUrl = `${window.location.origin}/landing.html`;
-            // Prefer replace to avoid leaving logout in history
-            window.location.replace(landingUrl);
-        } catch (e) {
-            // fallback
-            window.location.href = '/';
-        }
-    }, 800);
+    localStorage.removeItem('rememberMe');
+    localStorage.removeItem('rememberEmail');
+    
+    // Direct redirect to landing.html
+    window.location.href = '/landing.html';
 }
