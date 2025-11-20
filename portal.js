@@ -1,5 +1,47 @@
 // Portal JavaScript
 // Exam data with 5 per row display
+
+function logAction(action, data = {}) {
+    const entry = {
+        action,
+        data,
+        timestamp: new Date().toISOString()
+    };
+
+    try {
+        console.log(`[Portal Action] ${action}`, data);
+    } catch (err) {
+        // no-op if console unavailable
+    }
+
+    try {
+        window.__portalLogs = window.__portalLogs || [];
+        window.__portalLogs.push(entry);
+        if (window.__portalLogs.length > 200) {
+            window.__portalLogs.shift();
+        }
+    } catch (err) {
+        // ignore log buffer failures
+    }
+
+    try {
+        if (window.parent && window.parent !== window && window.parent.postMessage) {
+            window.parent.postMessage({ type: 'portal-log', entry }, '*');
+        }
+    } catch (err) {
+        // ignore cross-frame issues
+    }
+}
+
+// Surface log events that are forwarded from the exam iframe/new window
+window.addEventListener('message', (event) => {
+    if (!event.data || event.data.type !== 'exam-log') {
+        return;
+    }
+
+    const { entry } = event.data;
+    console.log(`[Exam Action] ${entry.action}`, entry.data || {});
+});
 const examsData = [
     {
         id: 'dsa',
@@ -183,6 +225,7 @@ function createExamCard(exam) {
 
 // Navigation
 function navigateTo(section) {
+    logAction('navigate-to', { section });
     // Hide all sections
     document.querySelectorAll('.content-section').forEach(s => {
         s.classList.remove('active');
@@ -220,18 +263,22 @@ function navigateTo(section) {
 // Exam functions
 function previewExam(examId) {
     const exam = examsData.find(e => e.id === examId);
+    logAction('preview-exam', { examId });
     showToast(`Preview: ${exam.name} - ${exam.questions} questions in ${exam.duration}`, 'info');
 }
 
 function startExam(examId) {
     const exam = examsData.find(e => e.id === examId);
+    logAction('start-exam-click', { examId });
     if (!exam) {
         showToast('Exam not found. Please refresh and try again.', 'error');
+        logAction('start-exam-error', { reason: 'exam-not-found', examId });
         return;
     }
 
     if (!liveExamIds.has(examId)) {
         showToast(`${exam.name} is coming soon.`, 'warning');
+        logAction('start-exam-blocked', { examId, reason: 'exam-coming-soon' });
         return;
     }
 
@@ -248,6 +295,7 @@ function startExam(examId) {
 // Search exams
 function searchExams() {
     const query = document.getElementById('searchInput').value.toLowerCase();
+    logAction('search-exams', { query });
     const cards = document.querySelectorAll('.exam-card');
 
     cards.forEach(card => {
@@ -259,11 +307,13 @@ function searchExams() {
 // Filter exams
 function filterExams() {
     // Implementation for filtering
+    logAction('filter-exams');
     showToast('Filters applied', 'info');
 }
 
 // Leaderboard
 function filterLeaderboard() {
+    logAction('filter-leaderboard');
     const tbody = document.getElementById('leaderboardBody');
     tbody.innerHTML = generateLeaderboardRows();
 }
@@ -310,36 +360,43 @@ function changePassword() {
 function toggleNotifications() {
     const dropdown = document.getElementById('notificationsDropdown');
     dropdown.classList.toggle('show');
+    logAction('toggle-notifications', { open: dropdown.classList.contains('show') });
 }
 
 function closeNotifications() {
     document.getElementById('notificationsDropdown').classList.remove('show');
+    logAction('close-notifications');
 }
 
 // Profile
 function toggleProfile() {
     const dropdown = document.getElementById('profileDropdown');
     dropdown.classList.toggle('show');
+    logAction('toggle-profile-dropdown', { open: dropdown.classList.contains('show') });
 }
 
 function closeProfile() {
     document.getElementById('profileDropdown').classList.remove('show');
+    logAction('close-profile-dropdown');
 }
 
 // Sidebar
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('active');
+    logAction('toggle-sidebar', { open: sidebar.classList.contains('active') });
 }
 
 function closeSidebar() {
     document.getElementById('sidebar').classList.remove('active');
+    logAction('close-sidebar');
 }
 
 // Logout
 function logout(event) {
     if (event) event.preventDefault();
     console.log('Logout clicked - clearing storage and redirecting');
+    logAction('logout-clicked');
     
     // Clear auth data
     localStorage.removeItem('authToken');
@@ -354,6 +411,7 @@ function logout(event) {
 
 // Toast notification
 function showToast(message, type = 'info') {
+    logAction('toast', { message, type });
     const toast = document.createElement('div');
     toast.className = `toast-notification show ${type}`;
     toast.textContent = message;

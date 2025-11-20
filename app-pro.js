@@ -25,6 +25,38 @@ let appState = {
     sessionAuthenticated: sessionStorage.getItem('sessionAuthenticated') === 'true'
 };
 
+function logAction(action, data = {}) {
+    const entry = {
+        action,
+        data,
+        timestamp: new Date().toISOString()
+    };
+
+    try {
+        console.log(`[App Action] ${action}`, data);
+    } catch (err) {
+        // ignore if console unavailable
+    }
+
+    try {
+        window.__examLogs = window.__examLogs || [];
+        window.__examLogs.push(entry);
+        if (window.__examLogs.length > 200) {
+            window.__examLogs.shift();
+        }
+    } catch (err) {
+        // ignore log buffer issues
+    }
+
+    try {
+        if (window.parent && window.parent !== window && window.parent.postMessage) {
+            window.parent.postMessage({ type: 'exam-log', entry }, '*');
+        }
+    } catch (err) {
+        // ignore cross-frame messaging errors
+    }
+}
+
 // ===== EXAM CONFIGURATION =====
 const examConfig = {
     dsa: {
@@ -139,6 +171,7 @@ function switchScreen(screenName) {
 }
 
 function scrollToSection(sectionId) {
+    logAction('scroll-to-section', { sectionId });
     const element = document.getElementById(sectionId);
     if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -181,11 +214,13 @@ function autoStartExamFromNavigation() {
 // ===== ADMIN FUNCTIONS =====
 
 function showAdminLogin() {
+    logAction('admin-login-open');
     document.getElementById('adminLoginModal').classList.add('active');
     document.getElementById('adminPassword').focus();
 }
 
 function closeAdminLogin() {
+    logAction('admin-login-close');
     document.getElementById('adminLoginModal').classList.remove('active');
     document.getElementById('adminPassword').value = '';
 }
@@ -193,12 +228,14 @@ function closeAdminLogin() {
 function authenticateAdmin(event) {
     event.preventDefault();
     const password = document.getElementById('adminPassword').value.trim();
+    logAction('admin-auth-attempt');
     
     // ✅ FIXED: Proper admin authentication with validation
     const correctPassword = 'admin123'; // Change this to your secure password
     
     if (!password) {
         showError('Please enter a password');
+        logAction('admin-auth-failed', { reason: 'missing-password' });
         return;
     }
 
@@ -219,15 +256,18 @@ function authenticateAdmin(event) {
         
         showSuccess('Admin logged in successfully!');
         console.log('✅ Admin authenticated');
+        logAction('admin-auth-success');
     } else {
         showError('Invalid password. Try again.');
         document.getElementById('adminPassword').value = '';
         document.getElementById('adminPassword').focus();
         console.warn('❌ Admin authentication failed');
+        logAction('admin-auth-failed', { reason: 'invalid-password' });
     }
 }
 
 function logoutAdmin() {
+    logAction('admin-logout');
     appState.adminAuthenticated = false;
     // Clear authentication data
     try {
@@ -245,6 +285,7 @@ function logoutAdmin() {
 }
 
 function switchAdminTab(tabName) {
+    logAction('switch-admin-tab', { tabName });
     // Hide all tabs
     document.querySelectorAll('.admin-tab').forEach(tab => {
         tab.classList.remove('active');
@@ -403,17 +444,20 @@ function deleteQuestion(examKey, questionIndex) {
 }
 
 function exportQuestions() {
+    logAction('export-questions');
     const csv = convertToCSV(questionBank);
     downloadFile(csv, 'questions.csv', 'text/csv');
 }
 
 function exportResults() {
+    logAction('export-results');
     const results = JSON.parse(localStorage.getItem('examResults') || '[]');
     const csv = convertToCSV(results);
     downloadFile(csv, 'results.csv', 'text/csv');
 }
 
 function exportAllData() {
+    logAction('export-all-data');
     const data = {
         questions: questionBank,
         results: JSON.parse(localStorage.getItem('examResults') || '[]'),
@@ -424,9 +468,11 @@ function exportAllData() {
 }
 
 function importData() {
+    logAction('import-data-attempt');
     const file = document.getElementById('importFile').files[0];
     if (!file) {
         showError('Please select a file');
+        logAction('import-data-error', { reason: 'no-file' });
         return;
     }
     
@@ -440,8 +486,10 @@ function importData() {
             }
             showSuccess('Data imported successfully!');
             loadExamQuestions();
+            logAction('import-data-success');
         } catch (error) {
             showError('Invalid file format');
+            logAction('import-data-error', { reason: 'invalid-format' });
         }
     };
     reader.readAsText(file);
@@ -450,6 +498,7 @@ function importData() {
 // ===== PROFILE FUNCTIONS =====
 
 function showMyProfile() {
+    logAction('show-profile');
     const profile = appState.userProfile;
     
     document.getElementById('profileName').textContent = profile.name || 'Guest Learner';
@@ -516,6 +565,7 @@ function setupEventListeners() {
 }
 
 function startExam(examKey) {
+    logAction('start-exam', { examKey });
     const needsLogin = !appState.sessionAuthenticated 
         || !appState.userProfile 
         || !appState.userProfile.name 
@@ -523,6 +573,7 @@ function startExam(examKey) {
     if (needsLogin) {
         appState.pendingExam = examKey;
         showLoginModal();
+        logAction('start-exam-deferred', { reason: 'login-required', examKey });
         return;
     }
     appState.pendingExam = null;
@@ -668,6 +719,7 @@ function renderQuestionsNav() {
 }
 
 function nextQuestion() {
+    logAction('next-question');
     const questions = questionBank[appState.currentExam] || [];
     if (appState.currentQuestion < questions.length - 1) {
         appState.currentQuestion++;
@@ -677,6 +729,7 @@ function nextQuestion() {
 }
 
 function previousQuestion() {
+    logAction('previous-question');
     if (appState.currentQuestion > 0) {
         appState.currentQuestion--;
         renderQuestion();
@@ -685,14 +738,17 @@ function previousQuestion() {
 }
 
 function exitExam() {
+    logAction('exit-exam-open');
     document.getElementById('exitModal').classList.add('active');
 }
 
 function closeExitModal() {
+    logAction('exit-exam-close');
     document.getElementById('exitModal').classList.remove('active');
 }
 
 function confirmExit() {
+    logAction('exit-exam-confirm');
     clearInterval(appState.timerInterval);
     appState.examStarted = false;
     appState.currentExam = null;
@@ -702,6 +758,7 @@ function confirmExit() {
 }
 
 function submitExam() {
+    logAction('submit-exam', { exam: appState.currentExam });
     clearInterval(appState.timerInterval);
 
     const exam = appState.currentExam;
@@ -772,6 +829,7 @@ function displayResults(results) {
 }
 
 function viewDetailedResults() {
+    logAction('view-detailed-results');
     const questions = questionBank[appState.currentExam] || [];
     const modal = document.getElementById('detailedModal');
     const reviewContent = document.getElementById('detailedReview');
@@ -817,6 +875,7 @@ function viewDetailedResults() {
 }
 
 function closeDetailedResults() {
+    logAction('close-detailed-results');
     document.getElementById('detailedModal').classList.remove('active');
 }
 
@@ -825,6 +884,7 @@ function getOptionIndex(letter) {
 }
 
 function goToHome() {
+    logAction('go-to-home');
     appState.answers = {};
     appState.currentExam = null;
     appState.currentQuestion = 0;
